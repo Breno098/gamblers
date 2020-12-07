@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../contexts/auth'
 
-import { Container, Logo, Input, InputPass, ButtonSubmit, Message, TextLink } from '../../components'
+import { ContainerCenter , Logo, Input, InputPass, ButtonSubmit, Message, TextLink } from '../../components'
+
 
 export default function SignIn() {
   const navigation = useNavigation();
@@ -14,7 +15,7 @@ export default function SignIn() {
   const handleLogin = () => signIn(email, password);
 
   return (
-    <Container>
+    <ContainerCenter>
       <Logo source={require('../../images/Logo.png')}/>
 
       <Message message={message}/>
@@ -38,6 +39,6 @@ export default function SignIn() {
       <ButtonSubmit text="Entrar" onPress={handleLogin} loading={loadingAuth}/>
 
       <TextLink text="Criar uma conta" onPress={() => navigation.navigate('SignUp')}/>
-    </Container>
+    </ContainerCenter>
   );
 }

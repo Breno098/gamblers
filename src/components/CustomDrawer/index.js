@@ -16,10 +16,6 @@ export default function CustomDrawer(props) {
                     resizeMode="contain"
                 />
 
-                <Text style={{ color: '#FFF', fontSize: 18, marginTop: 5 }}> 
-                    Bem-vindo
-                </Text>
-
                 <Text style={{ color: '#FFF', fontSize: 17, fontWeight: 'bold', paddingBottom: 25 }}> 
                     { user && user.name }
                 </Text>

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 
-import { Container, Logo, Input, InputPass, ButtonSubmit, Message } from '../../components'
+import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message } from '../../components'
 
 
 export default function SignIn() {
@@ -16,7 +16,7 @@ export default function SignIn() {
   const handleSignUp = () => signUp(email, name, password, confirmPassword);
 
   return (
-    <Container>
+    <ContainerCenter>
       <Logo source={require('../../images/Logo.png')}/>
 
       <Message message={message}/>
@@ -55,6 +55,6 @@ export default function SignIn() {
 
       <ButtonSubmit text="Entrar" onPress={handleSignUp} loading={loadingAuth}/>
 
-    </Container>
+    </ContainerCenter>
   );
 }

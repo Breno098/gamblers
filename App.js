@@ -6,14 +6,18 @@ import { View, StatusBar } from 'react-native';
 console.disableYellowBox = true;
 
 import AuthProvider from './src/contexts/auth';
+import AppProvider from './src/contexts/app';
+
 import Routes from './src/routes/index';
 
 export default function App() {
  return (
    <NavigationContainer>
       <AuthProvider>
-         <StatusBar backgroundColor="#ff7213" barStyle="light-content"/>
-         <Routes/>
+         <AppProvider>
+            <StatusBar backgroundColor="#ff7213" barStyle="light-content"/>
+            <Routes/>
+         </AppProvider>
       </AuthProvider>
    </NavigationContainer>
   );

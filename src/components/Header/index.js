@@ -1,31 +1,54 @@
-import React, { useState } from 'react';
-import { Animated } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
+import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import { Container, ButtonMenu, DivisorContainer, MessageArea, MessageText} from './styles';
+import { SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { View          } from 'react-native';
+import { Message       } from '../../components';
 
 export default function Header({ refresh, message }) {
-
     const navigation = useNavigation();
 
     return (
-        <Container>
-            <DivisorContainer>
-                <ButtonMenu onPress={() => { navigation.toggleDrawer() }}>
+        <SafeAreaView style={ styles.header } >
+            <View style={ styles.divisor } >
+                <TouchableOpacity 
+                 style={ styles.buttonMenu }
+                 onPress={() => { navigation.toggleDrawer() }}>
                     <Icon name="bars" color="#ff7213" size={35}/>
-                </ButtonMenu>
+                </TouchableOpacity >
 
-                <ButtonMenu onPress={ () => { refresh() } }>
+                <TouchableOpacity 
+                 style={ styles.buttonMenu }
+                 onPress={ () => { refresh() } }>
                     <Icon name="refresh" color="#ff7213" size={25} />
-                </ButtonMenu>
-            </DivisorContainer>
-            <DivisorContainer>
-                <MessageArea>
-                    <MessageText> { message && message } </MessageText>
-                </MessageArea>
-            </DivisorContainer>
-        </Container>
+                </TouchableOpacity >
+            </View>
+            <View>
+                <Message message={message}/>
+            </View>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    header: {
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+      height: 60,
+      marginTop: 20,
+      marginBottom: 40,
+    }, 
+  
+    divisor: {
+      flexDirection: 'row', 
+      width: '90%', 
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+
+    buttonMenu: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});

@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from 'react';
-import firebase from '../services/firebaseConnection';
 import api from '../services/api';
 import AsyncStorage from '@react-native-community/async-storage';
 

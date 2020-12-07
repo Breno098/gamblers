@@ -1,8 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
 import { CustomDrawer } from '../components'
+
 import Home from '../pages/Home';
+import Country from '../pages/Country';
+import Team from '../pages/Team';
 
 const AppDrawer = createDrawerNavigator();
 
@@ -26,6 +28,8 @@ function AppRoutes(){
             }
         }}
     >
+        <AppDrawer.Screen name="Time" component={Team}/>
+        <AppDrawer.Screen name="Países" component={Country}/>
         <AppDrawer.Screen name="Home" component={Home}/>
     </AppDrawer.Navigator>
     );
