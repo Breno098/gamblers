@@ -9,6 +9,7 @@ export default function Register() {
 
     const [name, setName] = useState('');
     const [countryId, setCountryId] = useState(null);
+    const [countryName, setCountryName] = useState(null);
     const [countrys, setCountrys] = useState([]);
     const [teams, setTeams] = useState([]);
 
@@ -33,26 +34,34 @@ export default function Register() {
         })
     }
 
-    function handleSubmit( datasSubmit = {}){
-        api.post('/team/register', formDatas({ name: name, country_id: countryId, ...datasSubmit }))
+    function handleSubmit(){
+        api.post('/team/register', formDatas({ name: name, country_id: countryId }))
         .then(() => {
+            insertFieds(null)
             setMessage(`${name} registrado`);
         })
     }
 
     function handleSubmitUpdate(){
-        handleSubmit({ id: 5 })
+        api.post('/team/register', formDatas({ id: 2, name: name, country_id: countryId }))
+        .then(() => {
+            insertFieds(null)
+            setMessage(`${name} alterado`);
+        })
     }
 
     function deleteItem(id){
         api.post('/team/delete', formDatas({ id }))
         .then(() => {
             setMessage(`${name} deletado`);
-            let newArray = teams.filter((item) => {
-                return item.id !== id ;
-            });
-            setTeams( newArray );
+            setTeams( teams.filter((item) => item.id !== id ) );
         })
+    }
+
+    function insertFieds(item){
+        setName(item ? item.name : '');
+        setCountryId(item ? item.country_id.id : null);
+        setCountryName(item ? item.country_id.name : null)
     }
 
     return (
@@ -61,15 +70,17 @@ export default function Register() {
                 <List
                     data={teams}
                     keyExtractor={(item) => item.id }
+                    //onPressItem={deleteItem(item.id)}
                     renderItem={({item}) => <ListColumns 
-                        onLongPress={() => deleteItem(item.id)} 
+                        // onLongPress={() => deleteItem(item.id)} 
+                        // onPress={() => insertFieds(item)}
                         key={item.id}
                         columns={[item.name, item.country_id.name]}
                     /> }
                 />
             </Divisor>
             
-            <Divisor row={5} top={0}>
+            <Divisor row={5} top={10}>
                 <Input
                     placeholder="Nome" 
                     autoCorrect={false}
@@ -80,12 +91,12 @@ export default function Register() {
             </Divisor>
 
             <Divisor row={5} top={10}>
-                <Select items={countrys} itemPress={setCountryId}/>               
+                <Select items={countrys} itemPress={setCountryId} model={countryName}/>               
             </Divisor>
 
             <Divisor row={5} top={10} cols={2} >
                 <Button text="Registar" onPress={handleSubmit} />
-                <Button text="Alterar" color="orange" onPress={handleSubmitUpdate}/>
+                <Button text="Alterar"  onPress={handleSubmitUpdate}/>
             </Divisor>
 
         </Container>

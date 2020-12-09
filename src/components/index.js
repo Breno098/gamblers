@@ -14,7 +14,7 @@ import Logo from './Logo';
 import Message from './Message';
 import TextLink from './TextLink';
 import Select from './Select';
-// import Option from './Option';
+import Modal from './Modal';
 
 export {
     Button,
@@ -33,5 +33,5 @@ export {
     Message,
     TextLink,
     Select,
-    // Option
+    Modal
 };

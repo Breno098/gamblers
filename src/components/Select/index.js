@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, Modal, StyleSheet, Text, TouchableHighlight, View , FlatList} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableHighlight, View , FlatList} from 'react-native';
+import { Modal } from '../../components';
 
-export default function Select({ itemPress, items }) {
+export default function Select({ itemPress, items, model }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [textSelect, setTextSelect] = useState('');
+  const [textSelect, setTextSelect] = useState(null);
+
+  useEffect(() => {
+    function modelChange(){
+      setTextSelect(model);
+    }
+
+    modelChange();
+  }, [model])
 
   function setSelect(text){
     setTextSelect(text);
@@ -11,49 +20,38 @@ export default function Select({ itemPress, items }) {
   }
 
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setSelect('')
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            { items.length === 0 
-              ? 
-              <ActivityIndicator size="large" color="#ff7213"/> 
-              :  
-              <FlatList
-                style={styles.scroll}
-                data={items}
-                keyExtractor={(item) => item.id }
-                renderItem={({item}) => (
-                  <TouchableHighlight style={styles.items} onPress={() => {
-                    setSelect(item.text);
-                    itemPress(item.value);
-                  }}>
-                    <View style={styles.itemPress}>
-                      <Text style={styles.textItem}> { item.text } </Text>
-                    </View>
-                  </TouchableHighlight>
-                )}
-              />
-            }
-          </View>
-        </View>
-      </Modal>
+    <View>
+      <Modal visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+          { items.length === 0 
+            ? 
+            <ActivityIndicator size="large" color="#ff7213"/> 
+            :  
+            <FlatList
+              style={styles.scroll}
+              data={items}
+              keyExtractor={(item) => item.id }
+              renderItem={({item}) => (
+                <TouchableHighlight style={styles.items} onPress={() => {
+                  setSelect(item.text);
+                  itemPress(item.value);
+                }}>
+                  <View style={styles.itemPress}>
+                    <Text style={styles.textItem}> { item.text } </Text>
+                  </View>
+                </TouchableHighlight>
+              )}
+            />
+          }
+        </Modal>
 
-      <TouchableHighlight
-        style={styles.fakeInput}
-        onPress={() => {
-          setModalVisible(true);
-        }}
-      >
-        <Text style={styles.textStyle}> { textSelect != '' ? textSelect : 'Selecione' } </Text>
-      </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.fakeInput}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
+          <Text style={styles.textStyle}> { textSelect ?? 'Selecione' } </Text>
+        </TouchableHighlight>
     </View>
   );
 }
@@ -80,32 +78,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: "#ff7213",
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: '100%'
-  },
-  modalView: {
-    width: '87%',
-    height: 200,
-    backgroundColor: 'rgba(0,0,0,0.92)',
-    borderColor: '#ff7213',
-    borderWidth: 1,
-    borderRadius: 7,
-    padding: 3,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   fakeInput: {
     backgroundColor: 'rgba(0,0,0,0.50)',
     padding: 10,
@@ -122,10 +94,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
 });
 
 

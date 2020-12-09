@@ -1,13 +1,31 @@
-import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { Modal } from '../../components';
 
-export default function List({...props}) {
+export default function List({ onPressItem, ...props }) {
+    const [modalVisible, setModalVisible] = useState(true);
+
     return (
-        <FlatList 
-            nestedScrollEnabled
-            style={ styles.main } 
-            {...props}
-        />
+        <View>
+            <Modal 
+                visible={modalVisible} 
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <Text style={{ color: '#FFF', fontSize: 80 }}>
+                    Breno
+                </Text>
+
+            </Modal>
+            <FlatList 
+                nestedScrollEnabled
+                style={ styles.main } 
+                onPress={() => {
+                    setModalVisible(true);
+                }}
+                {...props}
+            />
+        </View>
+      
     );
 }
 
