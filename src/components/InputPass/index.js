@@ -9,7 +9,7 @@ export default function InputPass({ ...props }) {
   const handleOpenEye = () => setOpenEye(!openEye);
 
   return (
-    <View style={{ width: '100%', flexDirection: 'row' }}>
+    <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 
       <TextInput 
         { ...props }
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.20)',
     fontSize: 17,
     color: '#FFF',
-    marginBottom: 15,
     padding: 10,
     borderRadius: 7,
     borderColor: '#ff7213',
@@ -47,6 +46,8 @@ const styles = StyleSheet.create({
   iconArea: {
     alignItems: 'center',
     justifyContent: "center",
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginTop: 10,
+    flex: 15
   }
 });

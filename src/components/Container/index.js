@@ -1,13 +1,20 @@
-import React from 'react';
-import { KeyboardAvoidingView, View, StyleSheet} from 'react-native';
+import React, { useContext } from 'react';
+import { KeyboardAvoidingView, View, StyleSheet, ScrollView } from 'react-native';
+import { Header } from '../../components'
+import { AppContext } from '../../contexts/app';
 
-export default function Container({ children }) {
+export default function Container({ children, refresh }) {
+    const { message } = useContext(AppContext);
+
     return (
-        <KeyboardAvoidingView style={ styles.container }>
-            <View style style={ styles.core }>
+        <View style={ styles.container }>
+            <Header message={message} refresh={refresh}/>
+            <ScrollView style style={ styles.core }>
+                <KeyboardAvoidingView>
                 { children }
-            </View>
-        </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </ScrollView>
+        </View>
     );
 }
 
@@ -15,14 +22,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        // justifyContent: 'center',
         backgroundColor: '#131313',
-        width: '100%'
+        width: '100%',
     }, 
 
     core: {
         width: '90%',
-        alignItems: 'center',
-        justifyContent: 'center',
     }
 });

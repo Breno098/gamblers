@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../contexts/auth'
 
-import { ContainerCenter , Logo, Input, InputPass, ButtonSubmit, Message, TextLink } from '../../components'
+import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, TextLink, Divisor } from '../../components'
 
 
 export default function SignIn() {
@@ -16,27 +16,38 @@ export default function SignIn() {
 
   return (
     <ContainerCenter>
-      <Logo source={require('../../images/Logo.png')}/>
+      <Divisor center={true}>
+        <Logo source={require('../../images/Logo.png')}/>
+      </Divisor>
+      
 
-      <Message message={message}/>
+      <Divisor row={5} top={10}>
+        <Message message={message}/>
+      </Divisor>
 
-      <Input
-        placeholder="Email" 
-        autoCorrect={false}
-        autoCapitalize="none"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
+      <Divisor row={5} top={10}>
+        <Input
+          placeholder="Email" 
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+      </Divisor>
 
-      <InputPass
-        placeholder="Senha" 
-        autoCorrect={false}
-        autoCapitalize="none"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
+      <Divisor row={5} top={10}>
+        <InputPass
+          placeholder="Senha" 
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+      </Divisor>
 
-      <ButtonSubmit text="Entrar" onPress={handleLogin} loading={loadingAuth}/>
+      <Divisor row={5} top={10}>
+        <ButtonSubmit text="Entrar" onPress={handleLogin} loading={loadingAuth}/>
+      </Divisor>
 
       <TextLink text="Criar uma conta" onPress={() => navigation.navigate('SignUp')}/>
     </ContainerCenter>

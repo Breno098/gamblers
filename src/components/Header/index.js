@@ -11,19 +11,19 @@ export default function Header({ refresh, message }) {
     return (
         <SafeAreaView style={ styles.header } >
             <View style={ styles.divisor } >
-                <TouchableOpacity 
+                <TouchableOpacity
                  style={ styles.buttonMenu }
                  onPress={() => { navigation.toggleDrawer() }}>
                     <Icon name="bars" color="#ff7213" size={35}/>
                 </TouchableOpacity >
 
-                <TouchableOpacity 
+                <TouchableOpacity
                  style={ styles.buttonMenu }
                  onPress={ () => { refresh() } }>
                     <Icon name="refresh" color="#ff7213" size={25} />
                 </TouchableOpacity >
             </View>
-            <View>
+            <View style={ styles.divisor }>
                 <Message message={message}/>
             </View>
         </SafeAreaView>
@@ -35,14 +35,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'space-between',
       width: '100%',
-      height: 60,
-      marginTop: 20,
-      marginBottom: 40,
-    }, 
-  
+      height: 70,
+      marginTop: 15,
+    },
+
     divisor: {
-      flexDirection: 'row', 
-      width: '90%', 
+      flexDirection: 'row',
+      width: '90%',
       justifyContent: 'space-between',
       alignItems: 'center',
     },

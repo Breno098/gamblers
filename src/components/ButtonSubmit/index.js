@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet,ActivityIndicator } from 'react-native';
 
-export default function Button({ text, onPress, loading}) {
+export default function ButtonSubmit({ text, onPress, loading}) {
  return (
    <TouchableOpacity 
     onPress={onPress}
@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 45,
     borderRadius: 7,
-    marginTop: 10
   }, 
 
   text: {

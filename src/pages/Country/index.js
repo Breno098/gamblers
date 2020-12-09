@@ -41,7 +41,7 @@ function Register() {
             <List
                 data={countrys}
                 renderItem={({item}) => <ListItem text={item.name}/> }
-                keyExtractor={(item) => item.key }
+                keyExtractor={(item) => item.id }
             />
 
             <Input
@@ -78,7 +78,7 @@ function Listing() {
             <List
                 data={countrys}
                 renderItem={({item}) => <ListItem text={item.name}/> }
-                keyExtractor={(item) => item.key }
+                keyExtractor={(item) => item.id }
             />
 
        </Container>

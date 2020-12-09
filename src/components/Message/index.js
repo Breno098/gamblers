@@ -17,10 +17,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-    width: '90%',
-    height: 45,
-    marginTop: 10,
-    marginBottom: 10,
+    width: '100%',
+    marginBottom: 15,
   }, 
 
   text: {

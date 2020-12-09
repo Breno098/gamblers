@@ -3,15 +3,19 @@ import { FlatList, StyleSheet } from 'react-native';
 
 export default function List({...props}) {
     return (
-        <FlatList style={ styles.main } {...props}/>
+        <FlatList 
+            nestedScrollEnabled
+            style={ styles.main } 
+            {...props}
+        />
     );
 }
 
 const styles = StyleSheet.create({
     main: {
-        height: '50%',
-        marginBottom: 10,
+        height: '100%',
         width: '100%',
+        marginBottom: 10,
         paddingLeft: 5,
         paddingRight: 5,
         borderRadius: 5,

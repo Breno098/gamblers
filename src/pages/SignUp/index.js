@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 
-import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message } from '../../components'
+import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, Divisor } from '../../components'
 
 
 export default function SignIn() {
@@ -17,43 +17,57 @@ export default function SignIn() {
 
   return (
     <ContainerCenter>
-      <Logo source={require('../../images/Logo.png')}/>
+      <Divisor center={true}>
+        <Logo source={require('../../images/Logo.png')}/>
+      </Divisor>
 
-      <Message message={message}/>
+      <Divisor row={5} top={10}>
+        <Message message={message}/>
+      </Divisor>
 
-      <Input
-        placeholder="Nome" 
-        autoCorrect={false}
-        autoCapitalize="none"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
+      <Divisor row={5} top={10}>
+        <Input
+          placeholder="Nome" 
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
+      </Divisor>
 
-      <Input
-        placeholder="Email" 
-        autoCorrect={false}
-        autoCapitalize="none"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
+      <Divisor row={5} top={10}>
+        <Input
+          placeholder="Email" 
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+      </Divisor>
 
-      <InputPass
-        placeholder="Senha" 
-        autoCorrect={false}
-        autoCapitalize="none"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
+      <Divisor row={5} top={10}>
+        <InputPass
+          placeholder="Senha" 
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+      </Divisor>
 
-      <InputPass
-        placeholder="Senha" 
-        autoCorrect={false}
-        autoCapitalize="none"
-        value={confirmPassword}
-        onChangeText={(text) => setConfirmPassword(text)}
-      />
+      <Divisor row={5} top={10}>
+        <InputPass
+          placeholder="Senha" 
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={confirmPassword}
+          onChangeText={(text) => setConfirmPassword(text)}
+        />
+       </Divisor>
 
-      <ButtonSubmit text="Entrar" onPress={handleSignUp} loading={loadingAuth}/>
+      <Divisor row={5} top={10}>
+        <ButtonSubmit text="Entrar" onPress={handleSignUp} loading={loadingAuth}/>
+      </Divisor>
 
     </ContainerCenter>
   );

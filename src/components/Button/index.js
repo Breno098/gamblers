@@ -1,20 +1,36 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet,ActivityIndicator } from 'react-native';
 
-export default function ButtonSubmit({ text }) {
- return (
-   <TouchableOpacity style={{
-       alignItems: 'center',
-       justifyContent: 'center',
-       backgroundColor: '#ff7213',
-       width: '90%',
-       height: 45,
-       borderRadius: 7,
-       marginTop: 10
-   }}>
-       <Text style={{ fontSize: 25, color: '#FFF', fontWeight: 'bold'}}> 
-            { text && text }
-       </Text>
-   </TouchableOpacity>
+export default function Button({ text, onPress, loading, color, textColor}) {
+  const colorBtn = color == 'success' ? '#17e636' : 
+                   color == 'danger' ? '#c70000' : 
+                   color ? color : '#ff7213';
+    
+  return (
+    <TouchableOpacity 
+      onPress={onPress}
+      style={{ backgroundColor: colorBtn, ...styles.button} }>
+        { loading 
+          ? 
+          (<ActivityIndicator size={20} color={textColor ?? '#FFF'}/>) 
+          : 
+          (<Text style={{ color: textColor ?? '#FFF', ...styles.text }}> { text } </Text>) 
+        }
+    </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 45,
+    borderRadius: 7,
+  }, 
+
+  text: {
+    fontSize: 15, 
+    fontWeight: 'bold'
+  }
+});
