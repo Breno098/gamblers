@@ -4,7 +4,7 @@ import { CustomDrawer } from '../components'
 
 import Home from '../pages/Home';
 import Country from '../pages/Country';
-import Team from '../pages/Team';
+import Registers from '../pages/Registers';
 
 const AppDrawer = createDrawerNavigator();
 
@@ -13,23 +13,23 @@ function AppRoutes(){
     <AppDrawer.Navigator
         drawerContent={ (props) => <CustomDrawer {...props}/> }
         drawerStyle={{
-            backgroundColor: '#171717'
+            backgroundColor: 'rgba(255, 255, 255, 1)'
         }}
         drawerContentOptions={{
             labelStyle: {
                 fontWeight: 'bold',
             },
-            activeTintColor: '#FFF',
+            activeTintColor: '#000',
             activeBackgroundColor: '#ff7213',
-            inactiveTintColor: '#DDD',
-            inactiveBackgroundColor: '#000',
+            inactiveTintColor: '#000',
+            inactiveBackgroundColor: 'rgba(0, 0, 0, 0.1)',
             itemStyle: {
-                marginVertical: 5
+                marginVertical: 2
             }
         }}
     >
-        <AppDrawer.Screen name="Time" component={Team}/>
-        <AppDrawer.Screen name="Países" component={Country}/>
+        <AppDrawer.Screen name="Registrar" component={Registers}/>
+        {/* <AppDrawer.Screen name="Países" component={Country}/> */}
         <AppDrawer.Screen name="Home" component={Home}/>
     </AppDrawer.Navigator>
     );

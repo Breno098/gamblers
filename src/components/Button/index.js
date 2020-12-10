@@ -1,10 +1,15 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet,ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet,ActivityIndicator, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Button({ text, onPress, loading, color, textColor}) {
+export default function Button({ text, onPress, loading, color, icon, textColor}) {
   const colorBtn = color == 'success' ? '#17e636' : 
                    color == 'danger' ? '#c70000' : 
+                   color == 'clean' ? '#FFF' :
                    color ? color : '#ff7213';
+
+  const textColorBtn = color == 'clean' ? '#000' : 
+                       textColor ? textColor : '#FFF';
     
   return (
     <TouchableOpacity 
@@ -12,9 +17,20 @@ export default function Button({ text, onPress, loading, color, textColor}) {
       style={{ backgroundColor: colorBtn, ...styles.button} }>
         { loading 
           ? 
-          (<ActivityIndicator size={20} color={textColor ?? '#FFF'}/>) 
+          (<ActivityIndicator size={20} color={textColorBtn}/>) 
           : 
-          (<Text style={{ color: textColor ?? '#FFF', ...styles.text }}> { text } </Text>) 
+          (
+            <View style={ styles.btn }>
+              <Text style={{ color: textColorBtn ?? '#FFF', ...styles.text }}> { text } </Text>
+              {
+                  icon 
+                  ? 
+                  <Icon name={icon} size={15} color={textColorBtn} style={{ marginLeft: 5 }}/>
+                  :
+                  null
+              }
+            </View>
+          ) 
         }
     </TouchableOpacity>
   );
@@ -32,5 +48,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15, 
     fontWeight: 'bold'
+  },
+  
+  btn: {
+    flexDirection: "row", 
+    justifyContent: 'center', 
+    alignItems: 'center'
   }
 });

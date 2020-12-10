@@ -12,11 +12,11 @@ export default function CustomDrawer(props) {
             <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 25}}>
                 <Image 
                     source={require('../../images/Logo.png')}
-                    style={{ width: 85, height: 85 }}
+                    style={{ width: 100, height: 100 }}
                     resizeMode="contain"
                 />
 
-                <Text style={{ color: '#FFF', fontSize: 17, fontWeight: 'bold', paddingBottom: 25 }}> 
+                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 10 }}> 
                     { user && user.name }
                 </Text>
             </View>
@@ -26,7 +26,7 @@ export default function CustomDrawer(props) {
             <DrawerItem  
                 {...props}
                 label="Sair"
-                inactiveBackgroundColor="#c62c36"
+                inactiveBackgroundColor="rgba(0, 0, 0, 0.2)"
                 onPress={ () => signOut() }
             />
 

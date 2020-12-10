@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
-import { Modal } from '../../components';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { ScrollView, StyleSheet,View, Text, TouchableOpacity} from 'react-native';
 
-export default function List({ onPressItem, ...props }) {
-    const [modalVisible, setModalVisible] = useState(true);
+export default function List({ children, headers,  ...props }) {
+    const width = 100 / headers.length;
+    const [direction, setDirection] = useState(true);
 
     return (
-        <View>
-            <Modal 
-                visible={modalVisible} 
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <Text style={{ color: '#FFF', fontSize: 80 }}>
-                    Breno
-                </Text>
-
-            </Modal>
-            <FlatList 
-                nestedScrollEnabled
-                style={ styles.main } 
-                onPress={() => {
-                    setModalVisible(true);
-                }}
-                {...props}
-            />
+        <View style={ styles.main }>
+            {/* TITLE */}
+            <View style={ styles.header }>
+                { headers ? headers.map( (column) => (
+                        <TouchableOpacity 
+                            onPress={() => {
+                                if(column.onPress){
+                                    setDirection(!direction)
+                                    column.onPress();
+                                }
+                            }}
+                            style={{ width: width + '%', flexDirection: "row", justifyContent: 'center', alignItems: 'center'}}
+                        >
+                            <Text style={ styles.text }> { column.title }  </Text>
+                            {
+                                column.onPress 
+                                ? 
+                                <Icon name={direction ? 'arrow-up' : 'arrow-down'} size={10} color="rgba(0, 0, 0, 0.1)" style={{ marginLeft: 5 }}/>
+                                :
+                                null
+                            }
+                        </TouchableOpacity>
+                )) : null}    
+            </View>
+            
+            {/* BODY */}
+            <ScrollView nestedScrollEnabled style={ styles.core } >
+            { children }
+            </ScrollView>
         </View>
-      
     );
 }
 
@@ -34,11 +45,28 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         marginBottom: 10,
-        paddingLeft: 5,
-        paddingRight: 5,
         borderRadius: 5,
         borderColor: '#ff7213',
-        borderWidth: 2,
-        backgroundColor: 'rgba(0, 0, 0, 1)',
+        borderWidth: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
     }, 
+
+    core: {
+
+    },
+
+    header: {
+        width: '100%',
+        padding: 10,
+        marginBottom: 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        flexDirection: 'row',
+        borderBottomColor: '#ff7213',
+        borderBottomWidth: 1,
+    },  
+
+    text: {
+        color: 'black',
+        textAlign: "center"
+    }
 });
