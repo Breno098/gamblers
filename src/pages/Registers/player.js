@@ -3,13 +3,17 @@ import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
 import { Container, Divisor, Button, Input, List, ListColumns, Select, Option } from '../../components'
 import firebase from '../../services/firebaseConnection';
+import { set } from 'date-fns';
 
 export default function Player() {
 
     const { setMessage } = useContext(AppContext);
 
-    const [teamName, setTeamName] = useState('');
-    const [teamKey, setTeamKey] = useState(null);
+    const [playerName, setPlayerName] = useState('');
+    const [playerKey, setPlayerKey] = useState(null);
+    const [players, setPlayers] = useState([]);
+    
+    const [team, setTeam] = useState(null);
     const [teams, setTeams] = useState([]);
 
     const [country, setCountry] = useState(null);
@@ -20,71 +24,70 @@ export default function Player() {
     useEffect(() => {
         loadList();
         loadListCountry();
+        loadListTeam();
     }, []);
 
     async function loadList(){
-        await firebase.database()
-            .ref('app')
-            .child('team')
-            .orderByChild('name')
-            .on('value', (snapshot) => {
+        await firebase.database().ref('app').child('player').orderByChild('name').on('value', (snapshot) => {
+                setPlayers([]);
+                snapshot.forEach( childItem => {
+                    let list = { key: childItem.key, name: childItem.val().name, team: childItem.val().team, country: childItem.val().country };
+                    setPlayers(oldArray => [...oldArray, list]);
+                })
+            })
+    }
+
+    async function loadListTeam(){
+        await firebase.database().ref('app').child('team').orderByChild('name').on('value', (snapshot) => {
                 setTeams([]);
                 snapshot.forEach( childItem => {
-                    let list = { key: childItem.key, name: childItem.val().name, country: childItem.val().country };
+                    let list = { name: childItem.val().name };
                     setTeams(oldArray => [...oldArray, list]);
                 })
             })
     }
 
     async function loadListCountry(){
-        await firebase.database()
-            .ref('app')
-            .child('country')
-            .orderByChild('name')
-            .on('value', (snapshot) => {
+        await firebase.database().ref('app').child('country').orderByChild('name').on('value', (snapshot) => {
                 setCountrys([]);
                 snapshot.forEach( childItem => {
-                    let list = { key: childItem.key, name: childItem.val().name };
+                    let list = { name: childItem.val().name };
                     setCountrys(oldArray => [...oldArray, list]);
                 })
             })
     }
 
     async function handleSubmit(){
-        if(!teamKey){
-
-            let key = await firebase.database().ref('app').child('team').push().key;
-            await firebase.database().ref('app').child('team').child(key).set({
-                name: teamName,
-                country: country,
-            })
-
-            setMessage(`${teamName} registrado com sucesso.`)
-
-        } else {
-
-            await firebase.database().ref('app').child('team').child(teamKey).set({
-                name: teamName,
-                country: country
-            });
-
-            setMessage(`${teamName} alterado com sucesso.`)
-
+        let model = {
+            name: playerName,
+            team: team,
+            country: country
         }
+
+        if(!playerKey){
+            let key = await firebase.database().ref('app').child('player').push().key;
+            await firebase.database().ref('app').child('player').child(key).set(model)
+            setMessage(`${playerName} registrado com sucesso.`)
+        } else {
+            await firebase.database().ref('app').child('player').child(playerKey).set(model);
+            setMessage(`${playerName} alterado com sucesso.`)
+        }
+
         clear()
     }
 
     async function clear(){
         setTextButton('Registrar')
-        setTeamKey(null);
-        setTeamName('');
+        setPlayerKey(null);
+        setPlayerName('');
+        setTeam('');
         setCountry('');
     }
 
     function deleteAlert(item){
         Alert.alert(
             'Confirmar exclusão?',
-            ' ',
+            `${item.name} (${item.team})`,
             [
                 { text: 'Cancel', style: 'cancel' },
                 { text: 'Deletar', onPress: () => deleteItem(item) }
@@ -93,16 +96,17 @@ export default function Player() {
     }
 
     async function deleteItem(item){
-        await firebase.database().ref('app').child('team').child(item.key).remove();
+        await firebase.database().ref('app').child('player').child(item.key).remove();
         setMessage(`${item.name} deletado com sucesso.`)
         clear();
     }
 
-    function insertFieds(item){
+    function insertFieds(player){
         setTextButton('Alterar')
-        setTeamKey(item.key);
-        setTeamName(item.name);
-        setCountry(item.country);
+        setPlayerKey(player.key);
+        setPlayerName(player.name);
+        setTeam(player.team);
+        setCountry(player.country);
     }
 
     return (
@@ -112,18 +116,18 @@ export default function Player() {
                 <List headers={[{
                     title: 'Nome',
                     onPress: () => {
-                        setTeams(teams.slice().reverse());
+                        setPlayers(players.slice().reverse());
                     }
+                 }, {
+                    title: 'Time',
                  }, {
                     title: 'País',
                  }]}>
-                    { teams.map(item => (
+                    { players.map(player => (
                         <ListColumns   
-                            key={item.key}
-                            columns={[item.name, item.country]}
-                            onLongPress={() => deleteAlert(item)}
-                            onPress={() => insertFieds(item) }
-                            // delayLongPress={1000}
+                            columns={[player.name, player.team, player.country]}
+                            onLongPress={() => deleteAlert(player)}
+                            onPress={() => insertFieds(player) }
                         />
                     ))}
                 </List>
@@ -132,9 +136,26 @@ export default function Player() {
             <Divisor row={5} top={10}>
                 <Input
                     placeholder="Nome" 
-                    value={teamName}
-                    onChangeText={(text) => setTeamName(text)}
+                    value={playerName}
+                    onChangeText={(text) => setPlayerName(text)}
                 />
+            </Divisor>
+
+            <Divisor row={5} top={10}>
+                    <Select
+                        selectedValue={team}   
+                        onValueChange={(itemValue, itemIndex) => setTeam(itemValue)}
+                    >
+                        <Option label="Selecione" value={null} />
+                        { teams 
+                          ? 
+                          teams.map(team => (
+                            <Option label={team.name} value={team.name} />
+                          )) 
+                          : 
+                          <Option label="Carregando..." value={null} />
+                        }
+                    </Select>
             </Divisor>
 
             <Divisor row={5} top={10}>

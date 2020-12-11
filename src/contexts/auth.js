@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from 'react';
-import api from '../services/api';
+import firebase from '../services/firebaseConnection';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const AuthContext = createContext({});
@@ -13,18 +13,24 @@ function AuthProvider({ children }){
     useEffect(() => {
         async function loadStorage(){
             const storageUser = await AsyncStorage.getItem('Auth_user');
-
             if(storageUser){
                 setUser( JSON.parse(storageUser) );
                 setLoading(false);
             }
-
             setLoading(false);
         }
         loadStorage();
     }, []);
 
-    function passwordVerify(password, confirmPassword = ''){
+    function verifySignUp(email, name, password, confirmPassword = ''){
+        if(email.length === 0){
+            setMessageTime('Insira um email.');
+            return false;
+        }
+        if(name.length === 0){
+            setMessageTime('Insira um nome.');
+            return false;
+        }
         if(password.length < 8){
             setMessageTime('Digite uma senha com mais de 8 caracteres.');
             return false;
@@ -55,26 +61,65 @@ function AuthProvider({ children }){
 
         setLoadingAuth(true);
 
-        setTimeout( () => {
-            setUser({ name: email });
-            storageUser({ name: email });
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(async (value) => {
+            let uid = value.user.uid;
+
+            await firebase.database().ref('users').child(uid).once('value')
+            .then(snapshot => {
+                let data = {
+                    uid: uid,
+                    name: snapshot.val().name,
+                    email: value.user.email
+                };
+                
+                setUser(data);
+                storageUser(data);
+                setLoadingAuth(false);
+            });
+
+        })
+        .catch(error => {
+            setMessageTime(error.code);
             setLoadingAuth(false);
-        }, 3000);
+        })
        
     }
 
     async function signUp(email, name, password, confirmPassword){
-        if(! passwordVerify(password, confirmPassword)){
+        if(! verifySignUp(email, name, password, confirmPassword)){
             return;
         }
 
         setLoadingAuth(true);
 
-        setTimeout( () => {
-            setUser({ name: email });
-            storageUser({ name: email });
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(async (value) => {
+            let uid = value.user.uid;
+
+            await firebase.database().ref('users').child(uid).set({
+                score: 0,
+                name: name
+            }).then(() => {
+                let data = {
+                    uid: uid,
+                    name: name,
+                    email: value.user.email
+                };
+
+                setUser(data);
+                storageUser(data);
+                setLoadingAuth(false);
+            })
+            .catch((error) => {
+                setMessageTime(error.code);
+                setLoadingAuth(false);
+            })
+        })
+        .catch((error) => {
+            setMessageTime(error.code);
             setLoadingAuth(false);
-        }, 3000);
+        })
     }
 
     async function storageUser(data){

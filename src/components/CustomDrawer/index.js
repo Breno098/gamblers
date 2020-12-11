@@ -9,14 +9,14 @@ export default function CustomDrawer(props) {
 
     return (
         <DrawerContentScrollView {...props}>
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 25}}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 35}}>
                 <Image 
                     source={require('../../images/Logo.png')}
                     style={{ width: 100, height: 100 }}
                     resizeMode="contain"
                 />
 
-                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 10 }}> 
+                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 20, paddingTop: 20 }}> 
                     { user && user.name }
                 </Text>
             </View>

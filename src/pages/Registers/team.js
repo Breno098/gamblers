@@ -23,11 +23,7 @@ export default function Team() {
     }, []);
 
     async function loadList(){
-        await firebase.database()
-            .ref('app')
-            .child('team')
-            .orderByChild('name')
-            .on('value', (snapshot) => {
+        await firebase.database().ref('app').child('team').orderByChild('name').on('value', (snapshot) => {
                 setTeams([]);
                 snapshot.forEach( childItem => {
                     let list = { key: childItem.key, name: childItem.val().name, country: childItem.val().country };
@@ -37,40 +33,30 @@ export default function Team() {
     }
 
     async function loadListCountry(){
-        await firebase.database()
-            .ref('app')
-            .child('country')
-            .orderByChild('name')
-            .on('value', (snapshot) => {
+        await firebase.database().ref('app').child('country').orderByChild('name').on('value', (snapshot) => {
                 setCountrys([]);
                 snapshot.forEach( childItem => {
-                    let list = { key: childItem.key, name: childItem.val().name };
+                    let list = { name: childItem.val().name };
                     setCountrys(oldArray => [...oldArray, list]);
                 })
             })
     }
 
     async function handleSubmit(){
-        if(!teamKey){
-
-            let key = await firebase.database().ref('app').child('team').push().key;
-            await firebase.database().ref('app').child('team').child(key).set({
-                name: teamName,
-                country: country,
-            })
-
-            setMessage(`${teamName} registrado com sucesso.`)
-
-        } else {
-
-            await firebase.database().ref('app').child('team').child(teamKey).set({
-                name: teamName,
-                country: country
-            });
-
-            setMessage(`${teamName} alterado com sucesso.`)
-
+        let model = {
+            name: teamName,
+            country: country,
         }
+
+        if(!teamKey){
+            let key = await firebase.database().ref('app').child('team').push().key;
+            await firebase.database().ref('app').child('team').child(key).set(model)
+            setMessage(`${teamName} registrado com sucesso.`)
+        } else {
+            await firebase.database().ref('app').child('team').child(teamKey).set(model);
+            setMessage(`${teamName} alterado com sucesso.`)
+        }
+
         clear()
     }
 
@@ -84,7 +70,7 @@ export default function Team() {
     function deleteAlert(item){
         Alert.alert(
             'Confirmar exclusão?',
-            ' ',
+            `${item.name} (${item.country})`,
             [
                 { text: 'Cancel', style: 'cancel' },
                 { text: 'Deletar', onPress: () => deleteItem(item) }
@@ -119,7 +105,6 @@ export default function Team() {
                  }]}>
                     { teams.map(item => (
                         <ListColumns   
-                            key={item.key}
                             columns={[item.name, item.country]}
                             onLongPress={() => deleteAlert(item)}
                             onPress={() => insertFieds(item) }

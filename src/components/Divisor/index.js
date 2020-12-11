@@ -21,7 +21,7 @@ export default function Divisor({children, row, top, bottom, center, cols }) {
             flexDirection: flexDivision,
          }}>
             { Children.map(children, (child, i) => (
-                <View style={{ width: colsWidth + '%',  height: height }}>
+                <View style={{ width: colsWidth + '%',  height: height, justifyContent: viewJustifyContent, alignItems: alignItems, flexDirection: flexDivision,}}>
                     { child }
                 </View>
             ))

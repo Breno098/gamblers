@@ -5,8 +5,8 @@ export default function Logo({ ...props }) {
  return (
    <Image style={{
        marginBottom: 15,
-       height: 150,
-       width: 150
+       height: 200,
+       width: 200
    }}
    { ...props }
    />

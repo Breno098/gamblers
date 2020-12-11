@@ -11,25 +11,25 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { signUp, loadingAuth, message } = useContext( AuthContext );
+  const { signUp, loadingAuth } = useContext( AuthContext );
 
-  const handleSignUp = () => signUp(email, name, password, confirmPassword);
+  async function handleSignUp() {
+    await signUp(email, name, password, confirmPassword);
+  }
 
   return (
     <ContainerCenter>
-      <Divisor center={true}>
+      <Divisor center={true} row={8}>
         <Logo source={require('../../images/Logo.png')}/>
       </Divisor>
 
-      <Divisor row={5} top={10}>
-        <Message message={message}/>
+      <Divisor row={5} top={100}>
+        <Message/>
       </Divisor>
 
       <Divisor row={5} top={10}>
         <Input
           placeholder="Nome" 
-          autoCorrect={false}
-          autoCapitalize="none"
           value={name}
           onChangeText={(text) => setName(text)}
         />

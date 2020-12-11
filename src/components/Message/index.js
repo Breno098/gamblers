@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { useContext } from 'react';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { AuthContext } from '../../contexts/auth'
 
-export default function Message({ message }) {
+export default function Message() {
+  const { message } = useContext( AuthContext );
 
   return (
     <TouchableOpacity style={ styles.messageArea }>
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 15, 
-    color: '#FFF', 
+    color: '#000', 
     fontWeight: 'bold'
   }
 });

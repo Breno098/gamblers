@@ -7,7 +7,7 @@ import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, TextLin
 
 export default function SignIn() {
   const navigation = useNavigation();
-  const { signIn, loadingAuth, message } = useContext( AuthContext );
+  const { signIn, loadingAuth } = useContext( AuthContext );
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,13 +16,12 @@ export default function SignIn() {
 
   return (
     <ContainerCenter>
-      <Divisor center={true}>
+      <Divisor center={true} row={8} >
         <Logo source={require('../../images/Logo.png')}/>
       </Divisor>
-      
 
-      <Divisor row={5} top={10}>
-        <Message message={message}/>
+      <Divisor row={5} top={100}>
+        <Message/>
       </Divisor>
 
       <Divisor row={5} top={10}>

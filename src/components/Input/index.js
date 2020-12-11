@@ -9,7 +9,7 @@ export default function Input({ ...props }) {
     style={{
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         fontSize: 17,
-        color: 'black',
+        color: '#000',
         padding: 10,
         borderRadius: 7,
         borderColor: '#ff7213',

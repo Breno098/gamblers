@@ -6,6 +6,7 @@ import { View, Text} from 'react-native';
 import Team from './team';
 import Country from './country';
 import Player from './player';
+import Game from './game';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +21,11 @@ const icons = {
     },
     Player : {
         label: 'Jogador',
-        icon: 'player'
+        icon: 'user'
+    },
+    Game: {
+        label: 'Jogos',
+        icon: 'futbol-o'
     }
 }
 
@@ -49,7 +54,7 @@ export default function Registers(){
                 },
                 showLabel: false,
         }}>
-            
+            <Tab.Screen name="Game"  component={Game}/>
             <Tab.Screen name="Country" component={Country}/>
             <Tab.Screen name="Team"    component={Team}/>
             <Tab.Screen name="Player"  component={Player}/>

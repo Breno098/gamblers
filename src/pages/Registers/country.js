@@ -19,11 +19,7 @@ export default function Country() {
     }, []);
 
     async function loadList(){
-        await firebase.database()
-            .ref('app')
-            .child('country')
-            .orderByChild('name')
-            .on('value', (snapshot) => {
+        await firebase.database().ref('app').child('country').orderByChild('name').on('value', (snapshot) => {
                 setCountrys([]);
                 snapshot.forEach( childItem => {
                     let list = { key: childItem.key, name: childItem.val().name };
@@ -33,22 +29,19 @@ export default function Country() {
     }
 
     async function handleSubmit(){
-        if(!countryKey){
-
-            let key = await firebase.database().ref('app').child('country').push().key;
-            await firebase.database().ref('app').child('country').child(key).set({
-                name: countryName,
-            })
-            setMessage(`${countryName} registrado com sucesso.`)
-
-        } else {
-
-            await firebase.database().ref('app').child('country').child(countryKey).set({
-                name: countryName,
-            });
-            setMessage(`${countryName} alterado com sucesso.`)
-
+        let model = {
+            name: countryName
         }
+
+        if(!countryKey){
+            let key = await firebase.database().ref('app').child('country').push().key;
+            await firebase.database().ref('app').child('country').child(key).set(model)
+            setMessage(`${countryName} registrado com sucesso.`)
+        } else {
+            await firebase.database().ref('app').child('country').child(countryKey).set(model)
+            setMessage(`${countryName} alterado com sucesso.`)
+        }
+
         clear()
     }
 
@@ -61,7 +54,7 @@ export default function Country() {
     function deleteAlert(item){
         Alert.alert(
             'Confirmar exclusão?',
-            ' ',
+            item.name,
             [
                 { text: 'Cancel', style: 'cancel' },
                 { text: 'Deletar', onPress: () => deleteItem(item) }
@@ -88,7 +81,6 @@ export default function Country() {
                 <List headers={[{ title: 'Nome', onPress: () => setCountrys(countrys.slice().reverse()) }]}>
                     { countrys.map(item => (
                         <ListColumns   
-                            key={item.key}
                             columns={[item.name]}
                             onLongPress={() => deleteAlert(item)}
                             onPress={() => insertFieds(item) }

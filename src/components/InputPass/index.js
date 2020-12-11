@@ -14,14 +14,14 @@ export default function InputPass({ ...props }) {
       <TextInput 
         { ...props }
         secureTextEntry={openEye}
-        placeholderTextColor='rgba(255,255,255,0.50)'
+        placeholderTextColor='rgba(0, 0, 0, 0.5)'
         style={ styles.input }/>
 
       <TouchableOpacity onPress={ handleOpenEye } style={ styles.iconArea }>
         <Icon
           name={ openEye ? 'eye' : 'eye-slash' }
           size={30}
-          color="#FFF"
+          color="rgba(0, 0, 0, 0.5)"
           style={{ marginBottom: 15, marginLeft: 10 }}
         />
       </TouchableOpacity>
@@ -32,9 +32,9 @@ export default function InputPass({ ...props }) {
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: 'rgba(0,0,0,0.20)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     fontSize: 17,
-    color: '#FFF',
+    color: '#000',
     padding: 10,
     borderRadius: 7,
     borderColor: '#ff7213',

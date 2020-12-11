@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet,View, Text, TouchableOpacity} from 'react-native
 
 export default function List({ children, headers,  ...props }) {
     const width = 100 / headers.length;
-    const [direction, setDirection] = useState(true);
+    const [direction, setDirection] = useState(false);
 
     return (
         <View style={ styles.main }>
