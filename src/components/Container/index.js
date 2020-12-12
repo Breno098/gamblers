@@ -12,7 +12,7 @@ export default function Container({ children }) {
         <View style={ styles.container }>
             <SafeAreaView style={ styles.header } >
                     <TouchableOpacity style={ styles.buttonMenu } onPress={() => { navigation.toggleDrawer() }}>
-                        <Icon name="bars" color="#ff7213" size={35}/>
+                        <Icon name="bars" color="#09ad00" size={35}/>
                     </TouchableOpacity >
                     <TouchableOpacity style={ styles.messageArea }>
                         <Text style={ styles.text }> { message ?? message } </Text>

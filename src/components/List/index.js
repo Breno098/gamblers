@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 10,
         borderRadius: 5,
-        borderColor: '#ff7213',
+        borderColor: '#09ad00',
         borderWidth: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
     }, 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         flexDirection: 'row',
-        borderBottomColor: '#ff7213',
+        borderBottomColor: '#09ad00',
         borderBottomWidth: 1,
     },  
 

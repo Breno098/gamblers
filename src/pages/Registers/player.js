@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
-import { Container, Divisor, Button, Input, List, ListColumns, Select, Option } from '../../components'
+import { Container, Row, Button, Input, List, ListColumns, Select, Option } from '../../components'
 import firebase from '../../services/firebaseConnection';
-import { set } from 'date-fns';
 
 export default function Player() {
 
@@ -112,7 +111,7 @@ export default function Player() {
     return (
         <Container>
 
-            <Divisor row={40}>
+            <Row height={400} cols={[8]}>
                 <List headers={[{
                     title: 'Nome',
                     onPress: () => {
@@ -131,54 +130,40 @@ export default function Player() {
                         />
                     ))}
                 </List>
-            </Divisor>
+            </Row>
            
-            <Divisor row={5} top={10}>
+            <Row cols={[8]}>
                 <Input
                     placeholder="Nome" 
                     value={playerName}
                     onChangeText={(text) => setPlayerName(text)}
                 />
-            </Divisor>
+            </Row>
 
-            <Divisor row={5} top={10}>
+            <Row cols={[8]}>
                     <Select
                         selectedValue={team}   
                         onValueChange={(itemValue, itemIndex) => setTeam(itemValue)}
                     >
-                        <Option label="Selecione" value={null} />
-                        { teams 
-                          ? 
-                          teams.map(team => (
-                            <Option label={team.name} value={team.name} />
-                          )) 
-                          : 
-                          <Option label="Carregando..." value={null} />
-                        }
+                        <Option label="Selecione o time" value={null} />
+                        { teams ? teams.map(team => (<Option label={team.name} value={team.name} />)) : null }
                     </Select>
-            </Divisor>
+            </Row>
 
-            <Divisor row={5} top={10}>
+            <Row cols={[8]}>
                     <Select
                         selectedValue={country}   
                         onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
                     >
-                        <Option label="Selecione" value={null} />
-                        { countrys 
-                          ? 
-                          countrys.map(country => (
-                            <Option label={country.name} value={country.name} />
-                          )) 
-                          : 
-                          <Option label="Carregando..." value={null} />
-                        }
+                        <Option label="Selecione o país" value={null} />
+                        { countrys ? countrys.map(country => (<Option label={country.name} value={country.name} />)) : null }
                     </Select>
-            </Divisor>
+            </Row>
 
-            <Divisor row={5} top={10} cols={2} >
+            <Row cols={[6, 2]} >
                 <Button text={textButton} onPress={handleSubmit} />
                 <Button text="Limpar" color="clean" icon="eraser" onPress={clear}/>
-            </Divisor>
+            </Row>
 
         </Container>
     );    

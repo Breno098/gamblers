@@ -105,7 +105,7 @@ export default function Country(){
             })}
 
             tabBarOptions={{
-                activeTintColor: '#ff7213',
+                activeTintColor: '#09ad00',
                 inactiveTintColor: '#FFF',
                 style: {
                     backgroundColor: '#131313',

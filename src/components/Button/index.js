@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function Button({ text, onPress, loading, color, icon, textColor}) {
   const colorBtn = color == 'success' ? '#17e636' : 
                    color == 'danger' ? '#c70000' : 
-                   color == 'clean' ? '#FFF' :
-                   color ? color : '#ff7213';
+                   color == 'clean' ? '#e2ffe0' :
+                   color ? color : '#09ad00';
 
   const textColorBtn = color == 'clean' ? '#000' : 
                        textColor ? textColor : '#FFF';

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
-import { Container, Divisor, Button, Input, List, ListColumns } from '../../components'
+import { Container, Row, Col, Button, Input, List, ListColumns } from '../../components'
 import firebase from '../../services/firebaseConnection';
 
 export default function Country() {
@@ -77,7 +77,7 @@ export default function Country() {
     return (
         <Container>
 
-            <Divisor row={40}>
+            <Row height={400} cols={[8]}>
                 <List headers={[{ title: 'Nome', onPress: () => setCountrys(countrys.slice().reverse()) }]}>
                     { countrys.map(item => (
                         <ListColumns   
@@ -87,20 +87,20 @@ export default function Country() {
                         />
                     ))}
                 </List>
-            </Divisor>
+            </Row>
            
-            <Divisor row={5} top={10}>
+            <Row top={10} cols={[8]}>
                 <Input
                     placeholder="Nome" 
                     value={countryName}
                     onChangeText={(text) => setCountryName(text)}
                 />
-            </Divisor>
+            </Row>
 
-            <Divisor row={5} top={10} cols={2} >
+            <Row cols={[6,2]}>
                 <Button text={textButton} onPress={handleSubmit} />
                 <Button text="Limpar" color="clean" icon="eraser" onPress={clear}/>
-            </Divisor>
+            </Row>
 
         </Container>
     );    

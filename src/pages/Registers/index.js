@@ -44,7 +44,7 @@ export default function Registers(){
             })}
 
             tabBarOptions={{
-                activeTintColor: '#ff7213',
+                activeTintColor: '#09ad00',
                 inactiveTintColor: 'black',
                 style: {
                     backgroundColor: 'rgba(255, 255, 255, 1)',

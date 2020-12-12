@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
-import { Container, Divisor, Button, Input, List, ListColumns, Select, Option } from '../../components'
+import { Container, Row, Button, Input, List, ListColumns, Select, Option } from '../../components'
 import firebase from '../../services/firebaseConnection';
 
 export default function Team() {
@@ -94,12 +94,10 @@ export default function Team() {
     return (
         <Container>
 
-            <Divisor row={40}>
+            <Row cols={[8]} height={400} >
                 <List headers={[{
                     title: 'Nome',
-                    onPress: () => {
-                        setTeams(teams.slice().reverse());
-                    }
+                    onPress: () => setTeams(teams.slice().reverse())
                  }, {
                     title: 'País',
                  }]}>
@@ -111,37 +109,30 @@ export default function Team() {
                         />
                     ))}
                 </List>
-            </Divisor>
+            </Row>
            
-            <Divisor row={5} top={10}>
+            <Row cols={[8]}>
                 <Input
                     placeholder="Nome" 
                     value={teamName}
                     onChangeText={(text) => setTeamName(text)}
                 />
-            </Divisor>
+            </Row>
 
-            <Divisor row={5} top={10}>
+            <Row cols={[8]}>
                     <Select
                         selectedValue={country}   
                         onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
                     >
-                        <Option label="Selecione" value={null} />
-                        { countrys 
-                          ? 
-                          countrys.map(country => (
-                            <Option label={country.name} value={country.name} />
-                          )) 
-                          : 
-                          <Option label="Carregando..." value={null} />
-                        }
+                        <Option label="Selecione o time" value={null} />
+                        { countrys ? countrys.map(country => (<Option label={country.name} value={country.name} />)) : null }
                     </Select>
-            </Divisor>
+            </Row>
 
-            <Divisor row={5} top={10} cols={2} >
+            <Row cols={[6,2]} >
                 <Button text={textButton} onPress={handleSubmit} />
                 <Button text="Limpar" color="clean" icon="eraser" onPress={clear}/>
-            </Divisor>
+            </Row>
 
         </Container>
     );    

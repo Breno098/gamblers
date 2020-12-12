@@ -20,7 +20,7 @@ function AppRoutes(){
                 fontWeight: 'bold',
             },
             activeTintColor: '#000',
-            activeBackgroundColor: '#ff7213',
+            activeBackgroundColor: '#09ad00',
             inactiveTintColor: '#000',
             inactiveBackgroundColor: 'rgba(0, 0, 0, 0.1)',
             itemStyle: {
@@ -28,9 +28,9 @@ function AppRoutes(){
             }
         }}
     >
+        <AppDrawer.Screen name="Home" component={Home}/>
         <AppDrawer.Screen name="Registrar" component={Registers}/>
         {/* <AppDrawer.Screen name="Países" component={Country}/> */}
-        <AppDrawer.Screen name="Home" component={Home}/>
     </AppDrawer.Navigator>
     );
 }
