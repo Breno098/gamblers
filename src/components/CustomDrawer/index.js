@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer'
 import { AuthContext } from '../../contexts/auth';
 
-export default function CustomDrawer(props) {
+export default function CustomDrawer({ ...props }) {
 
     const { user, signOut } = useContext( AuthContext );
 
@@ -16,8 +16,12 @@ export default function CustomDrawer(props) {
                     resizeMode="contain"
                 />
 
-                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 20, paddingTop: 20 }}> 
+                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 10, paddingTop: 20 }}> 
                     { user && user.name }
+                </Text>
+
+                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 20 }}> 
+                    Pontos { user && user.score }
                 </Text>
             </View>
 

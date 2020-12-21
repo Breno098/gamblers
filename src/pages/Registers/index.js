@@ -3,10 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text} from 'react-native';
 
-import Team from './team';
-import Country from './country';
-import Player from './player';
-import Game from './game';
+import Team from '../Team';
+import Country from '../Country';
+import Player from '../Player';
+import Game from '../Game';
+import Stadium from '../Stadium';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,10 @@ const icons = {
     Game: {
         label: 'Jogos',
         icon: 'futbol-o'
+    },
+    Stadium: {
+        label: 'Estádio',
+        icon: 'font-awesome'
     }
 }
 
@@ -55,9 +60,10 @@ export default function Registers(){
                 showLabel: false,
         }}>
             <Tab.Screen name="Game"  component={Game}/>
-            <Tab.Screen name="Country" component={Country}/>
             <Tab.Screen name="Team"    component={Team}/>
             <Tab.Screen name="Player"  component={Player}/>
+            <Tab.Screen name="Stadium"  component={Stadium}/>
+            <Tab.Screen name="Country" component={Country}/>
         </Tab.Navigator>
     )
 }

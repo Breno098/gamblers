@@ -3,12 +3,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView, StyleSheet,View, Text, TouchableOpacity} from 'react-native';
 
 export default function List({ children, headers,  ...props }) {
-    const width = 100 / headers.length;
+    const width = headers ? 100 / headers.length : 100;
     const [direction, setDirection] = useState(false);
 
     return (
         <View style={ styles.main }>
             {/* TITLE */}
+            { headers ? 
             <View style={ styles.header }>
                 { headers ? headers.map( (column) => (
                         <TouchableOpacity 
@@ -29,8 +30,8 @@ export default function List({ children, headers,  ...props }) {
                                 null
                             }
                         </TouchableOpacity>
-                )) : null}    
-            </View>
+                )) : null }    
+            </View>: null }
             
             {/* BODY */}
             <ScrollView nestedScrollEnabled style={ styles.core } >

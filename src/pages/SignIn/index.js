@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../contexts/auth'
 
-import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, TextLink, Divisor } from '../../components'
+import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, TextLink, Row } from '../../components'
 
 
 export default function SignIn() {
@@ -16,15 +16,15 @@ export default function SignIn() {
 
   return (
     <ContainerCenter>
-      <Divisor center={true} row={8} >
+      <Row cols={[8]} height={200} center={true}>
         <Logo source={require('../../images/Logo.png')}/>
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={100}>
+      <Row cols={[8]}>
         <Message/>
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <Input
           placeholder="Email" 
           autoCorrect={false}
@@ -32,9 +32,9 @@ export default function SignIn() {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <InputPass
           placeholder="Senha" 
           autoCorrect={false}
@@ -42,11 +42,11 @@ export default function SignIn() {
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <ButtonSubmit text="Entrar" onPress={handleLogin} loading={loadingAuth}/>
-      </Divisor>
+      </Row>
 
       <TextLink text="Criar uma conta" onPress={() => navigation.navigate('SignUp')}/>
     </ContainerCenter>

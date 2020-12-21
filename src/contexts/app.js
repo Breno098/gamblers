@@ -4,6 +4,7 @@ export const AppContext = createContext({});
 
 function AppProvider({ children }){
     const [message, setMessageProvider] = useState('');
+    const [appRoute, setAppRoute] = useState('');
 
     function setMessage(_message){
         setMessageProvider(_message);
@@ -15,7 +16,9 @@ function AppProvider({ children }){
     return(
         <AppContext.Provider value={{ 
             setMessage,
-            message
+            message,
+            setAppRoute,
+            appRoute
         }}>
             {children}
         </AppContext.Provider>

@@ -70,7 +70,8 @@ function AuthProvider({ children }){
                 let data = {
                     uid: uid,
                     name: snapshot.val().name,
-                    email: value.user.email
+                    email: value.user.email,
+                    score: snapshot.val().score,
                 };
                 
                 setUser(data);
@@ -104,7 +105,8 @@ function AuthProvider({ children }){
                 let data = {
                     uid: uid,
                     name: name,
-                    email: value.user.email
+                    email: value.user.email,
+                    score: 0,
                 };
 
                 setUser(data);
@@ -131,12 +133,14 @@ function AuthProvider({ children }){
         .then(() => {
             setUser(null)
         });
+        setUser(null)
     }
 
     return(
         <AuthContext.Provider value={{ 
             signed: !!user , 
             user, 
+            setUser,
             signUp, 
             signIn, 
             loading, 

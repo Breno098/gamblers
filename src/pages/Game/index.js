@@ -4,30 +4,30 @@ import { AppContext } from '../../contexts/app';
 import { Container, Button, List, ListColumns, Select, Option, DateInput, Row, Input, InputTime } from '../../components'
 import firebase from '../../services/firebaseConnection';
 import { format } from 'date-fns';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-
 
 export default function Game() {
 
     const { setMessage } = useContext(AppContext);
 
     const [teamHome, setTeamHome] = useState(null);
-    const [scoreHome, setScoreHome] = useState(null);
     const [teamGuest, setTeamGuest] = useState(null);
-    const [scoreGuest, setScoreGuest] = useState(null);
     const [teams, setTeams] = useState([]);
 
     const [games, setGames] = useState([]);
     const [gameKey, setGameKey] = useState(null);
 
-    const [date, setDate] = useState(format(new Date(), 'dd/MM/yyyy'));
-    const [hourGame, setHourGame] = useState(null);
+    const [date, setDate] = useState(format(new Date(), 'dd/MM/yy'));
+    const [time, setTime] = useState('00:00');
     const [textButton, setTextButton] = useState('Registrar');
+
+    const [finished, setFinished] = useState(false);
+    const [stadium, setStadium] = useState(null);
+    const [stadiums, setStadiums] = useState([]);
 
     useEffect(() => {
         loadList();
         loadListTeam();
+        loadListStadiums();
     }, []);
 
     async function loadList(){
@@ -36,13 +36,18 @@ export default function Game() {
                 snapshot.forEach( childItem => {
                     let list = { 
                         key: childItem.key, 
-                        teamHome: childItem.val().teamHome, 
-                        scoreHome: childItem.val().scoreHome,
-                        formatHome: `(${childItem.val().scoreHome}) ${childItem.val().teamHome}`,
-                        teamGuest: childItem.val().teamGuest,
-                        scoreGuest: childItem.val().scoreGuest,
-                        formatGuest: `(${childItem.val().scoreGuest}) ${childItem.val().teamGuest}`,
+                        teamHome: {
+                            name: childItem.child('teamHome/name').val(),
+                            score: childItem.child('teamHome/score').val()
+                        }, 
+                        teamGuest: {
+                            name: childItem.child('teamGuest/name').val(),
+                            score: childItem.child('teamGuest/score').val()
+                        }, 
                         date: childItem.val().date,
+                        time: childItem.val().time,
+                        finished: childItem.val().finished,
+                        stadium: childItem.val().stadium,
                     };
                     setGames(oldArray => [...oldArray, list]);
                 })
@@ -59,13 +64,31 @@ export default function Game() {
             })
     }
 
+    async function loadListStadiums(){
+        await firebase.database().ref('app').child('stadium').orderByChild('name').on('value', (snapshot) => {
+            setStadiums([]);
+            snapshot.forEach( childItem => {
+                let list = { name: childItem.val().name };
+                setStadiums(oldArray => [...oldArray, list]);
+            })
+        })
+    }
+
     async function handleSubmit(){
         let model = {
             teamHome: teamHome,
-            scoreHome: scoreHome ?? '--',
-            teamGuest: teamGuest,
-            scoreGuest: scoreGuest ?? '--',
-            date: date
+            teamHome: {
+                name: teamHome,
+                score: '--',
+            }, 
+            teamGuest: {
+                name: teamGuest,
+                score: '--',
+            }, 
+            date: date,
+            time: time,
+            finished: finished,
+            stadium: stadium
         }
 
         if(!gameKey){
@@ -84,9 +107,10 @@ export default function Game() {
         setTextButton('Registrar')
         setGameKey(null);
         setTeamHome('');
-        setScoreHome(null);
         setTeamGuest('');
-        setScoreGuest(null);
+        setTime('');
+        setFinished(false);
+        setStadium(null);
     }
 
     function deleteAlert(item){
@@ -109,10 +133,11 @@ export default function Game() {
     function insertFieds(game){
         setTextButton('Alterar')
         setGameKey(game.key);
-        setTeamHome(game.teamHome);
-        setScoreHome(game.scoreHome);
-        setTeamGuest(game.teamGuest);
-        setScoreGuest(game.scoreGuest);
+        setTeamHome(game.teamHome.name);
+        setTeamGuest(game.teamGuest.name);
+        setTime(String(game.time));
+        setFinished(game.finished);
+        setStadium(game.stadium);
     }
 
     return (
@@ -128,7 +153,11 @@ export default function Game() {
                 }]}>
                     { games.map(game => (
                         <ListColumns   
-                            columns={[game.date, game.formatHome, game.formatGuest]}
+                            columns={[
+                                `${game.date} (${game.time ?? '--'} - ${game.finished ? 'S' : 'N'}) `, 
+                                `(${game.teamHome.score}) ${game.teamHome.name}`, 
+                                `(${game.teamGuest.score}) ${game.teamGuest.name}`
+                            ]}
                             onLongPress={() => deleteAlert(game)}
                             onPress={() => insertFieds(game) }
                         />
@@ -136,45 +165,41 @@ export default function Game() {
                 </List>
             </Row>
            
-            <Row cols={[6,2]}>
+            <Row cols={[8]}>
                 <Select selectedValue={teamHome} onValueChange={(itemValue, itemIndex) => setTeamHome(itemValue)}>
                     <Option label="Time da casa" value={null} />
                     { teams ? teams.map(team => (<Option label={team.name} value={team.name} /> )) : null }
                 </Select>
-
-                <Input
-                    placeholder="Placar" 
-                    value={scoreHome}
-                    onChangeText={(text) => setScoreHome(text)}
-                    keyboardType="numeric"
-                />
-
             </Row>
 
-            <Row cols={[6,2]}>
+            <Row cols={[8]}>
                 <Select selectedValue={teamGuest} onValueChange={(itemValue, itemIndex) => setTeamGuest(itemValue)}>
                     <Option label="Time visitante" value={null} />
                     { teams ? teams.map(team => (<Option label={team.name} value={team.name} /> )) : null }
                 </Select>
-
-                <Input
-                    placeholder="Placar" 
-                    value={scoreGuest}
-                    onChangeText={(text) => setScoreGuest(text)}
-                    keyboardType="numeric"
-                />
-
             </Row>
 
-            <Row top={10} cols={[4, 4]}>
+            <Row cols={[4, 4]}>
                 <DateInput
                     date={date}
                     onDateChange={(date) => setDate(date)}
                 />
                 <InputTime
-                    value={hourGame}
-                    onChangeText={text => setHourGame(text)}
+                    value={time}
+                    onChangeText={text => setTime(text)}
                 />              
+            </Row>
+
+            <Row cols={[4, 4]}>
+                <Select selectedValue={finished} onValueChange={(itemValue, itemIndex) => setFinished(itemValue)}>
+                    <Option label="Não finalizado" value={false} />
+                    <Option label="Finalizado" value={true} />
+                </Select>
+
+                <Select selectedValue={stadium} onValueChange={(itemValue, itemIndex) => setStadium(itemValue)}>
+                    <Option label="Estádio" value={false} />
+                    { stadiums ? stadiums.map(stadium => (<Option label={stadium.name} value={stadium.name} /> )) : null }
+                </Select>
             </Row>
 
             <Row cols={[6,2]}>

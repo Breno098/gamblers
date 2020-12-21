@@ -33,7 +33,7 @@ export default function Row({children, height, top, bottom, center , cols }) {
                 let marginLeft = i === 0 ? 0 : 2;
 
                 return(
-                <View style={{ marginLeft: `${marginLeft}%`, width: `${width}%`}}>
+                <View style={{ marginLeft: `${marginLeft}%`, width: `${width}%`, justifyContent: viewJustifyContent, alignItems: alignItems }}>
                     { child }
                 </View>
                 );

@@ -1,12 +1,11 @@
 import Button from './Button';
 import ButtonSubmit from './ButtonSubmit';
+import Card from './Card';
 import Container from './Container';
 import ContainerCenter from './ContainerCenter';
 import CustomDrawer from './CustomDrawer';
-import Col from './Col';
 import Row from './Row';
 import DateInput from './DateInput';
-import Divisor from './Divisor';
 import Input from './Input';
 import InputPass from './InputPass';
 import InputTime from './InputTime';
@@ -25,9 +24,8 @@ export {
     Container,
     ContainerCenter,
     CustomDrawer,
-    Col,
+    Card,
     Row,
-    Divisor,
     DateInput,
     Input,
     InputPass,

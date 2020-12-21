@@ -15,6 +15,7 @@ export default function Select({ children, ...props }) {
 const styles = StyleSheet.create({
   select: {
     width: '100%',
+    height: 45,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 7,
     borderColor: '#09ad00',

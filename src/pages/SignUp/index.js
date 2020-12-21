@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 
-import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, Divisor } from '../../components'
+import { ContainerCenter, Logo, Input, InputPass, ButtonSubmit, Message, Row } from '../../components'
 
 
 export default function SignIn() {
@@ -19,23 +19,23 @@ export default function SignIn() {
 
   return (
     <ContainerCenter>
-      <Divisor center={true} row={8}>
+      <Row cols={[8]} center={true} height={150}>
         <Logo source={require('../../images/Logo.png')}/>
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={100}>
+      <Row cols={[8]} top={20}>
         <Message/>
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <Input
           placeholder="Nome" 
           value={name}
           onChangeText={(text) => setName(text)}
         />
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <Input
           placeholder="Email" 
           autoCorrect={false}
@@ -43,9 +43,9 @@ export default function SignIn() {
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <InputPass
           placeholder="Senha" 
           autoCorrect={false}
@@ -53,9 +53,9 @@ export default function SignIn() {
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
-      </Divisor>
+      </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <InputPass
           placeholder="Senha" 
           autoCorrect={false}
@@ -63,11 +63,11 @@ export default function SignIn() {
           value={confirmPassword}
           onChangeText={(text) => setConfirmPassword(text)}
         />
-       </Divisor>
+       </Row>
 
-      <Divisor row={5} top={10}>
+      <Row cols={[8]}>
         <ButtonSubmit text="Entrar" onPress={handleSignUp} loading={loadingAuth}/>
-      </Divisor>
+      </Row>
 
     </ContainerCenter>
   );

@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
-import { Container, Row, Col, Button, Input, List, ListColumns } from '../../components'
+import { Container, Row, Button, Input, List, ListColumns } from '../../components'
 import firebase from '../../services/firebaseConnection';
 
-export default function Country() {
+export default function Stadium() {
 
     const { setMessage } = useContext(AppContext);
 
-    const [countryName, setCountryName] = useState('');
-    const [countryKey, setCountryKey] = useState(null);
-    const [countrys, setCountrys] = useState([]);
+    const [stadiumName, setStadiumName] = useState('');
+    const [stadiumKey, setStadiumKey] = useState(null);
+    const [stadiums, setStadiums] = useState([]);
 
     const [textButton, setTextButton] = useState('Registrar');
 
@@ -19,27 +19,27 @@ export default function Country() {
     }, []);
 
     async function loadList(){
-        await firebase.database().ref('app').child('country').orderByChild('name').on('value', (snapshot) => {
-                setCountrys([]);
+        await firebase.database().ref('app').child('stadium').orderByChild('name').on('value', (snapshot) => {
+                setStadiums([]);
                 snapshot.forEach( childItem => {
                     let list = { key: childItem.key, name: childItem.val().name };
-                    setCountrys(oldArray => [...oldArray, list]);
+                    setStadiums(oldArray => [...oldArray, list]);
                 })
             })
     }
 
     async function handleSubmit(){
         let model = {
-            name: countryName
+            name: stadiumName
         }
 
-        if(!countryKey){
-            let key = await firebase.database().ref('app').child('country').push().key;
-            await firebase.database().ref('app').child('country').child(key).set(model)
-            setMessage(`${countryName} registrado com sucesso.`)
+        if(!stadiumKey){
+            let key = await firebase.database().ref('app').child('stadium').push().key;
+            await firebase.database().ref('app').child('stadium').child(key).set(model)
+            setMessage(`${stadiumName} registrado com sucesso.`)
         } else {
-            await firebase.database().ref('app').child('country').child(countryKey).set(model)
-            setMessage(`${countryName} alterado com sucesso.`)
+            await firebase.database().ref('app').child('stadium').child(stadiumKey).set(model)
+            setMessage(`${stadiumName} alterado com sucesso.`)
         }
 
         clear()
@@ -47,8 +47,8 @@ export default function Country() {
 
     async function clear(){
         setTextButton('Registrar')
-        setCountryKey(null);
-        setCountryName('');
+        setStadiumKey(null);
+        setStadiumName('');
     }
 
     function deleteAlert(item){
@@ -70,16 +70,16 @@ export default function Country() {
 
     function insertFieds(item){
         setTextButton('Alterar')
-        setCountryKey(item.key);
-        setCountryName(item.name);
+        setStadiumKey(item.key);
+        setStadiumName(item.name);
     }
 
     return (
         <Container>
 
             <Row height={400} cols={[8]}>
-                <List headers={[{ title: 'Nome', onPress: () => setCountrys(countrys.slice().reverse()) }]}>
-                    { countrys.map(item => (
+                <List headers={[{ title: 'Nome', onPress: () => setStadiums(stadiums.slice().reverse()) }]}>
+                    { stadiums.map(item => (
                         <ListColumns   
                             columns={[item.name]}
                             onLongPress={() => deleteAlert(item)}
@@ -92,8 +92,8 @@ export default function Country() {
             <Row top={10} cols={[8]}>
                 <Input
                     placeholder="Nome" 
-                    value={countryName}
-                    onChangeText={(text) => setCountryName(text)}
+                    value={stadiumName}
+                    onChangeText={(text) => setStadiumName(text)}
                 />
             </Row>
 

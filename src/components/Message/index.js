@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     width: '100%',
-    marginBottom: 15,
   }, 
 
   text: {
