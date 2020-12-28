@@ -1,14 +1,11 @@
 import React, { useContext, useState, useEffect} from 'react';
 import firebase from '../../services/firebaseConnection';
-import { StyleSheet, Text, Dimensions,  } from 'react-native';
-import { Container, Row, Button, Select, List, ListColumns, Option, Card} from '../../components';
-
+import { StyleSheet, Text } from 'react-native';
+import { Card, Row, Button, Select, List, ListColumns, Option } from '../../components';
 import { AuthContext } from '../../contexts/auth';
-import { useNavigation } from '@react-navigation/native';
 
-export default function OfficialGame({ route }) {
+export default function OfficialGame({ game, onCloseModal }) {
     const { user, setUser } = useContext(AuthContext);
-    const navigator = useNavigation();
 
     const [playersHome, setPlayersHome] = useState([]);
     const [playerHome, setPlayerHome] = useState(null);
@@ -19,16 +16,13 @@ export default function OfficialGame({ route }) {
     const [playersGoalsHome, setPlayersGoalsHome] = useState([]);
     const [playersGoalsGuest, setPlayersGoalsGuest] = useState([]);
 
-    const [status, setStatus] = useState(0);
-    const [index, setIndex] = useState(false);
-
     useEffect(() => {
         loadGame();
         loadListPlayers();
-    }, [route.params?.game]);
+    }, [game]);
 
     async function loadListPlayers(){
-        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(route.params?.game.teamHome.name).on('value', (snapshot) => {
+        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(game.teamHome.name).on('value', (snapshot) => {
             setPlayersHome([]);
             snapshot.forEach( childItem => {
                 let list = { 
@@ -39,7 +33,7 @@ export default function OfficialGame({ route }) {
             })
         });
 
-        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(route.params?.game.teamGuest.name).on('value', (snapshot) => {
+        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(game.teamGuest.name).on('value', (snapshot) => {
             setPlayersGuest([]);
             snapshot.forEach( childItem => {
                 let list = { 
@@ -53,7 +47,7 @@ export default function OfficialGame({ route }) {
 
     async function loadGame(){
 
-        await firebase.database().ref('app').child('game').child(route.params?.game.key).on('value', (snapshot) => {
+        await firebase.database().ref('app').child('game').child(game.key).on('value', (snapshot) => {
             setPlayersGoalsHome([]);
             snapshot.child('teamHome/goals').forEach( childItem => {
                 setPlayersGoalsHome(oldArray => [...oldArray, { 
@@ -75,28 +69,28 @@ export default function OfficialGame({ route }) {
     async function handleSubmit(){
         let model = {
             teamHome: {
-                name: route.params?.game.teamHome.name,
+                name: game.teamHome.name,
                 score: playersGoalsHome.length,
                 goals: playersGoalsHome
             },
             teamGuest: {
-                name: route.params?.game.teamGuest.name,
+                name: game.teamGuest.name,
                 score: playersGoalsGuest.length,
                 goals: playersGoalsGuest
             },
-            date: route.params?.game.date,
-            time: String(route.params?.game.time),
+            date: game.date,
+            time: String(game.time),
             finished: true,
-            stadium: route.params?.game.stadium,
+            stadium: game.stadium,
         };
 
-        await firebase.database().ref('app').child('game').child(route.params?.game.key).set(model);
+        await firebase.database().ref('app').child('game').child(game.key).set(model);
 
         await firebase.database().ref('app').child('bet').on('value', (snapshot) => {
 
             snapshot.forEach(async childItem => {
 
-                let compare = childItem.child(route.params?.game.key);
+                let compare = childItem.child(game.key);
 
                 if(compare.exists())
                 {
@@ -110,8 +104,7 @@ export default function OfficialGame({ route }) {
         })
 
         alert('Pontos contabilizados');
-
-        navigator.navigate('OfficialGames')
+        onCloseModal();
     }
     
     async function scoreAdd(compare, refUser, uidUser){
@@ -212,9 +205,9 @@ export default function OfficialGame({ route }) {
     }
 
     return (
-        <Container>
+        <Card>
             <Row cols={[6,2]}>
-                <Text style={styles.text}> { route.params?.game.teamHome.name } </Text>
+                <Text style={styles.text}> { game.teamHome.name } </Text>
                 <Text style={styles.text}> { playersGoalsHome.length } </Text>
             </Row>
             <Row height={150} cols={[8]}>
@@ -224,7 +217,7 @@ export default function OfficialGame({ route }) {
             </Row>
 
             <Row cols={[6,2]}>
-                <Text style={styles.text}> { route.params?.game.teamGuest.name } </Text>
+                <Text style={styles.text}> { game.teamGuest.name } </Text>
                 <Text style={styles.text}> { playersGoalsGuest.length } </Text>
             </Row>
             <Row height={150} cols={[8]}>
@@ -235,7 +228,7 @@ export default function OfficialGame({ route }) {
 
             <Row cols={[6,2]} height={50}>
                 <Select selectedValue={playerHome} onValueChange={(itemValue, itemIndex) => setPlayerHome(itemValue)}>
-                    <Option label={`Jogadores do ${route.params?.game.teamHome.name}`} value={null} />
+                    <Option label={`Jogadores do ${game.teamHome.name}`} value={null} />
                     { playersHome ? playersHome.map(player => (<Option label={player.name} value={player} /> )) : null }
                 </Select>
                 <Button text="Add" icon="plus" onPress={() => addPlayerHome()}/>
@@ -243,17 +236,17 @@ export default function OfficialGame({ route }) {
 
             <Row cols={[6,2]} height={50}>
                 <Select selectedValue={playerGuest} onValueChange={(itemValue, itemIndex) => setPlayerGuest(itemValue)}>
-                    <Option label={`Jogadores do ${route.params?.game.teamGuest.name}`} value={null} />
+                    <Option label={`Jogadores do ${game.teamGuest.name}`} value={null} />
                     { playersGuest ? playersGuest.map(player => (<Option label={player.name} value={player} /> )) : null }
                 </Select>
                 <Button text="Add" icon="plus" onPress={() => addPlayerGuest()}/>
             </Row>
 
             <Row cols={[8]}>
-                <Button text="Calcular" onPress={handleSubmit}/>
+                <Button text="Calcular" onPress={handleSubmit} disabled={game.finished}/>
             </Row>
 
-        </Container>
+        </Card>
     );
 }
 

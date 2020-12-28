@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect} from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { Modal, StyleSheet, Text } from 'react-native';
 import firebase from '../../services/firebaseConnection';
-import { useNavigation } from '@react-navigation/native';
+import OfficialGame from '../OfficialGame';
 
 import { Container, Row, Button, Card} from '../../components';
 
 export default function OfficialGames() {
-  const navigator = useNavigation();
-
   const [games, setGames] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [atualGame, setAtualGame] = useState(null);
 
   useEffect(() => {
     loadList();
@@ -39,6 +39,15 @@ export default function OfficialGames() {
 
   return (
     <Container>
+      <Modal 
+        transparent={false}
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <OfficialGame game={atualGame} onCloseModal={() =>setModalVisible(false)}/>
+      </Modal>
+
       <Row cols={[8]}>
         <Text style={{textAlign: 'center', ...styles.text}}> Calcular Apostas </Text>
       </Row>
@@ -59,7 +68,10 @@ export default function OfficialGames() {
               </Row>
 
               <Row cols={[6, 2]}>
-                <Button text="Calcular pontos" onPress={() => navigator.navigate('OfficialGame', { game })}/>
+                <Button text="Calcular pontos" onPress={() => {
+                   setAtualGame(game);
+                   setModalVisible(true);
+                }}/>
                 <Card center={true}>
                   <Text style={styles.status}> 
                     { game.finished ? 'Finalizado' : 'Aberto' }

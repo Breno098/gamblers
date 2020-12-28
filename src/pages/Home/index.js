@@ -1,17 +1,17 @@
 import React, { useContext, useState, useEffect} from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Modal, StyleSheet, Text} from 'react-native';
 import firebase from '../../services/firebaseConnection';
-import { useNavigation } from '@react-navigation/native';
-
 import { Container, Row, Button, Card} from '../../components';
 import { AuthContext } from '../../contexts/auth';
+import Bet from '../Bet';
 
 export default function Home() {
-  const navigator = useNavigation();
   const { user } = useContext(AuthContext);
 
+  const [modalVisible, setModalVisible] = useState(false);
   const [games, setGames] = useState([]);
   const [statusBet, setStatusBet] = useState([])
+  const [atualGame, setAtualGame] = useState(null);
 
   useEffect(() => {
     loadList();
@@ -32,10 +32,7 @@ export default function Home() {
       setGames([]);
 
       snapshot.forEach( childItem => {
-        let images = { 
-          home: childItem.child('teamGuest/image').val()
-        };
-
+       
         let list = { 
             key: childItem.key, 
             teamHome: {
@@ -45,7 +42,6 @@ export default function Home() {
             teamGuest: {
                 name: childItem.child('teamGuest/name').val(),
                 score: childItem.child('teamGuest/score').val(),
-                //link_image: require(game.teamGuest.link_image)
             }, 
             date: childItem.val().date,
             time: childItem.val().time,
@@ -58,6 +54,14 @@ export default function Home() {
 
   return (
     <Container>
+      <Modal 
+        transparent={false}
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <Bet game={atualGame} onCloseModal={() =>setModalVisible(false)}/>
+      </Modal>
       { games ? games.map(game => (
         <Row cols={[8]} height={200}>
           <Card>
@@ -76,7 +80,10 @@ export default function Home() {
               </Row>
 
               <Row cols={[6, 2]}>
-                <Button text="Apostar" onPress={() => navigator.navigate('Bet', { game })}/>
+                <Button text="Apostar" onPress={() => {
+                  setAtualGame(game);
+                  setModalVisible(true);
+                }}/>
                 <Card center={true}>
                   <Text style={styles.status}> 
                     { statusBet.filter(value => (value.key == game.key)).length ? 'Apostado' : '--' } 

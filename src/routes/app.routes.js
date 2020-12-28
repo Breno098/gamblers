@@ -35,27 +35,14 @@ function AppRoutes(){
             title: 'Inicio', 
             drawerIcon: ({tintColor}) => <Icon name="home" size={20} color={tintColor} /> 
         }}/>
-        <AppDrawer.Screen name="Registers" component={Registers} options={{ 
-            title: 'Registrar', 
-            drawerIcon: ({tintColor}) => <Icon name="plus" size={20} color={tintColor} /> 
-        }}/>
         <AppDrawer.Screen name="OfficialGames" component={OfficialGames} options={{ 
             title: 'Jogos Oficiais', 
             drawerIcon: ({tintColor}) => <Icon name="star" size={20} color={tintColor} /> 
         }}/>
-        {/* <AppDrawer.Screen name="Bet" component={Bet} options={{ 
-            drawerLabel: () => null,
-            title: undefined,
-            drawerIcon: () => null,
-            
-        }}
-        />
-        <AppDrawer.Screen name="OfficialGame" component={OfficialGame}options={{ 
-            drawerLabel: () => null,
-            title: undefined,
-            drawerIcon: () => null,
-        }}
-        /> */}
+        <AppDrawer.Screen name="Registers" component={Registers} options={{ 
+            title: 'Registrar', 
+            drawerIcon: ({tintColor}) => <Icon name="plus" size={20} color={tintColor} /> 
+        }}/>
     </AppDrawer.Navigator>
     );
 }

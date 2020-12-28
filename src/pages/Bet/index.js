@@ -6,7 +6,7 @@ import { Container, Row, Button, Select, List, ListColumns, Option, Card} from '
 import { AuthContext } from '../../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Bet({ route }) {
+export default function Bet({ game, onCloseModal }) {
     const { user } = useContext(AuthContext);
     const navigator = useNavigation();
 
@@ -22,10 +22,10 @@ export default function Bet({ route }) {
     useEffect(() => {
         loadBet();
         loadListPlayers();
-    }, [route.params?.game]);
+    }, [game]);
 
     async function loadListPlayers(){
-        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(route.params?.game.teamHome.name).on('value', (snapshot) => {
+        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(game.teamHome.name).on('value', (snapshot) => {
             setPlayersHome([]);
             console.log(snapshot)
             snapshot.forEach( childItem => {
@@ -37,7 +37,7 @@ export default function Bet({ route }) {
             })
         });
 
-        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(route.params?.game.teamGuest.name).on('value', (snapshot) => {
+        await firebase.database().ref('app').child('player').orderByChild('team').equalTo(game.teamGuest.name).on('value', (snapshot) => {
             setPlayersGuest([]);
             snapshot.forEach( childItem => {
                 let list = { 
@@ -52,7 +52,7 @@ export default function Bet({ route }) {
     async function loadBet(){
         let uid = user.uid;
 
-        await firebase.database().ref('app').child('bet').child(uid).child(route.params?.game.key).on('value', (snapshot) => {
+        await firebase.database().ref('app').child('bet').child(uid).child(game.key).on('value', (snapshot) => {
             setPlayersGoalsHome([]);
             snapshot.child('teamHome/goals').forEach( childItem => {
                 setPlayersGoalsHome(oldArray => [...oldArray, { 
@@ -76,22 +76,21 @@ export default function Bet({ route }) {
 
         let model = {
             teamHome: {
-                name: route.params?.game.teamHome.name,
+                name: game.teamHome.name,
                 score: playersGoalsHome.length,
                 goals: playersGoalsHome
             },
             teamGuest: {
-                name: route.params?.game.teamGuest.name,
+                name: game.teamGuest.name,
                 score: playersGoalsGuest.length,
                 goals: playersGoalsGuest
             }
         };
 
-        await firebase.database().ref('app').child('bet').child(uid).child(route.params?.game.key).set(model);
+        await firebase.database().ref('app').child('bet').child(uid).child(game.key).set(model);
 
         alert('Apostado');
-
-        navigator.navigate('Home')
+        onCloseModal();
     }
 
     function addPlayerHome(){
@@ -122,14 +121,14 @@ export default function Bet({ route }) {
                         <Text style={styles.textCard}> Informações </Text>
                     </Row>
                     <Row cols={[4,4]} height={5} top={0} bottom={20}>
-                        <Text style={styles.textCard}> { route.params?.game.date}</Text>
-                        <Text style={styles.textCard}> { route.params?.game.time}</Text>
+                        <Text style={styles.textCard}> { game.date}</Text>
+                        <Text style={styles.textCard}> { game.time}</Text>
                     </Row>
                 </Card>
             </Row>
 
             <Row cols={[6,2]}>
-                <Text style={styles.text}> { route.params?.game.teamHome.name } </Text>
+                <Text style={styles.text}> { game.teamHome.name } </Text>
                 <Text style={styles.text}> { playersGoalsHome.length } </Text>
             </Row>
             <Row height={150} cols={[8]}>
@@ -139,7 +138,7 @@ export default function Bet({ route }) {
             </Row>
 
             <Row cols={[6,2]}>
-                <Text style={styles.text}> { route.params?.game.teamGuest.name } </Text>
+                <Text style={styles.text}> { game.teamGuest.name } </Text>
                 <Text style={styles.text}> { playersGoalsGuest.length } </Text>
             </Row>
             <Row height={150} cols={[8]}>
@@ -150,7 +149,7 @@ export default function Bet({ route }) {
 
             <Row cols={[6,2]} height={50}>
                 <Select selectedValue={playerHome} onValueChange={(itemValue, itemIndex) => setPlayerHome(itemValue)}>
-                    <Option label={`Jogadores do ${route.params?.game.teamHome.name}`} value={null} />
+                    <Option label={`Jogadores do ${game.teamHome.name}`} value={null} />
                     { playersHome ? playersHome.map(player => (<Option label={player.name} value={player} /> )) : null }
                 </Select>
                 <Button text="Add" icon="plus" onPress={() => addPlayerHome()}/>
@@ -158,7 +157,7 @@ export default function Bet({ route }) {
 
             <Row cols={[6,2]} height={50}>
                 <Select selectedValue={playerGuest} onValueChange={(itemValue, itemIndex) => setPlayerGuest(itemValue)}>
-                    <Option label={`Jogadores do ${route.params?.game.teamGuest.name}`} value={null} />
+                    <Option label={`Jogadores do ${game.teamGuest.name}`} value={null} />
                     { playersGuest ? playersGuest.map(player => (<Option label={player.name} value={player} /> )) : null }
                 </Select>
                 <Button text="Add" icon="plus" onPress={() => addPlayerGuest()}/>
