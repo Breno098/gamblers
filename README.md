@@ -53,4 +53,4 @@ Nesta seção haverão instruções caso você queira editar o template, explica
 
 ## Contato
 
-Rocketseat - [Github](https://github.com/Breno098) - **Breno 098**
+Breno - [Github](https://github.com/Breno098) - **Breno 098**
