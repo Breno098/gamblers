@@ -6,25 +6,48 @@
   <h4 align="center"> Telas de autenticação </h4>
 </p>
 
-<kbd class="block two first">
- <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/login_screen.jpeg" width="210" height="390">
- <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/create_user_screen.jpeg" width="210" height="390">
-</kbd>
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/login_screen.jpeg" width="210" height="390">
+    </td>
+    <td>
+      <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/create_user_screen.jpeg" width="210" height="390">
+    </td>
+  </tr>
+</table>
 
 <p align="center">
   <h4 align="center"> Telas do aplicativo </h4>
 </p>
 
-<kbd class="block two first">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/home_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/bet_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/bets_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/create_user_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/oficial_game_calc_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/oficial_game_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/ranking_screen.jpeg" width="210" height="390">
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/side_menu.jpeg" width="210" height="390">
-</kbd>
+<table>
+  <tr>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/home_screen.jpeg" width="210" height="390">
+    </td>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/bet_screen.jpeg" width="210" height="390">
+    </td>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/bets_screen.jpeg" width="210" height="390">
+    </td>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/oficial_game_calc_screen.jpeg" width="210" height="390">
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/oficial_game_screen.jpeg" width="210" height="390">
+    </td>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/ranking_screen.jpeg" width="210" height="390">
+    </td>
+    <td>
+        <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/side_menu.jpeg" width="210" height="390">
+    </td>
+  </tr>
+</table>
 
 ## Tabela de Conteúdo
 
