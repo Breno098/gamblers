@@ -16,6 +16,7 @@
 </p>
 
 <kbd class="block two first">
+  img src="https://github.com/Breno098/gamblers/blob/master/readme_images/home_screen.jpeg" width="210" height="390">
   <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/bet_screen.jpeg" width="210" height="390">
   <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/bets_screen.jpeg" width="210" height="390">
   <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/create_user_screen.jpeg" width="210" height="390">
