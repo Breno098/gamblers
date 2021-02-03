@@ -46,9 +46,7 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         marginBottom: 10,
-        borderRadius: 5,
-        borderColor: '#09ad00',
-        borderWidth: 1,
+        borderRadius: 3,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
     }, 
 
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         flexDirection: 'row',
         borderBottomColor: '#09ad00',
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
     },  
 
     text: {

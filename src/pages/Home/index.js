@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect} from 'react';
-import { Modal, StyleSheet, Text} from 'react-native';
+import { Dimensions, Modal, StyleSheet, Text, ScrollView, Image, View} from 'react-native';
 import firebase from '../../services/firebaseConnection';
-import { Container, Row, Button, Card} from '../../components';
+import { Container, Row, Button, Card, CardInfos} from '../../components';
 import { AuthContext } from '../../contexts/auth';
 import Bet from '../Bet';
 
@@ -62,7 +62,7 @@ export default function Home() {
       >
         <Bet game={atualGame} onCloseModal={() =>setModalVisible(false)}/>
       </Modal>
-      { games ? games.map(game => (
+      { games.length > 0 ? games.map(game => (
         <Row cols={[8]} height={200}>
           <Card>
               <Row cols={[3, 2, 3]} height={5}>
@@ -93,7 +93,10 @@ export default function Home() {
               
           </Card>
         </Row>
-      )) : null }
+      )) 
+      :
+      <CardInfos/>
+     }
      
     </Container>
   );

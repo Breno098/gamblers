@@ -43,6 +43,16 @@ export default function Team() {
     }
 
     async function handleSubmit(){
+        if(!teamName){
+            setMessage('Insira o nome.');
+            return;
+        }
+
+        if(!country){
+            setMessage('Insira o país.');
+            return;
+        }
+
         let model = {
             name: teamName,
             country: country,

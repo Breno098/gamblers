@@ -29,6 +29,11 @@ export default function Stadium() {
     }
 
     async function handleSubmit(){
+        if(!stadiumName){
+            setMessage('Insira o nome.');
+            return;
+        }
+
         let model = {
             name: stadiumName
         }

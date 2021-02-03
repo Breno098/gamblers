@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect} from 'react';
 import firebase from '../../services/firebaseConnection';
 import { StyleSheet, Text } from 'react-native';
-import { Card, Row, Button, Select, List, ListColumns, Option } from '../../components';
+import { Container , Row, Button, Select, List, ListColumns, Option } from '../../components';
 import { AuthContext } from '../../contexts/auth';
+
+import ScoreService from '../../services/ScoreService'
 
 export default function OfficialGame({ game, onCloseModal }) {
     const { user, setUser } = useContext(AuthContext);
@@ -86,110 +88,25 @@ export default function OfficialGame({ game, onCloseModal }) {
 
         await firebase.database().ref('app').child('game').child(game.key).set(model);
 
-        await firebase.database().ref('app').child('bet').on('value', (snapshot) => {
-
-            snapshot.forEach(async childItem => {
-
-                let compare = childItem.child(game.key);
-
-                if(compare.exists())
-                {
-                    let refUser = await firebase.database().ref('users');
-
-                    await scoreAdd(compare, refUser, childItem.key);
-
-                    await scoreGoals(compare, refUser, childItem.key);
-                }
-            })
-        })
+        const scoreService = new ScoreService(model, game.key);
+        await scoreService.init();
+        await scoreService.calculateScore();
+        await scoreService.save()
 
         alert('Pontos contabilizados');
         onCloseModal();
     }
     
-    async function scoreAdd(compare, refUser, uidUser){
-        let goalsHome = compare.child('teamHome/score').val();
-        let goalsGuest = compare.child('teamGuest/score').val();
-
-        if( goalsHome === playersGoalsHome.length && goalsGuest === playersGoalsGuest.length ){
-            await refUser.child(uidUser).once('value').then(snapshot => {
-                let userModel = { 
-                    name: snapshot.child('name').val(), 
-                    score: snapshot.child('score').val() + 3
-                };
-                
-                refUser.child(uidUser).set(userModel);
-
-                if(uidUser === user.uid){
-                    setUser({ email: user.email, uid: user.uid, ...userModel });
-                }
-            });
+    function addPlayerHome(){
+        if(playerHome){
+            setPlayersGoalsHome(oldArray => [...oldArray, playerHome]);
         }
     }
 
-    async function scoreGoals(compare, refUser, uidUser){
-        var playersGoalsHomeClone = [ ...playersGoalsHome ];
-        var playersGoalsGuestClone = [ ...playersGoalsGuest ];
-        var scoreAdd = 0;
-
-        compare.child('teamHome/goals').forEach(goal => {
-            let indexWhile = 0;
-            let statusWhile = true;
-
-            while (statusWhile && playersGoalsHomeClone.length > indexWhile) {
-                if(playersGoalsHomeClone[indexWhile].name === goal.child('name').val()){
-                    statusWhile = false;
-                    scoreAdd = scoreAdd + 1.5;
-                    playersGoalsHomeClone = arrayRemove(playersGoalsHomeClone, indexWhile);
-                } else {
-                    indexWhile++;
-                }
-            }
-        })
-
-        compare.child('teamGuest/goals').forEach(goal => {
-            let indexWhile = 0;
-            let statusWhile = true;
-
-            while (statusWhile && playersGoalsGuestClone.length > indexWhile) {
-                if(playersGoalsGuestClone[indexWhile].name === goal.child('name').val()){
-                    statusWhile = false;
-                    scoreAdd = scoreAdd + 1.5;
-                    playersGoalsGuestClone = arrayRemove(playersGoalsGuestClone, indexWhile);
-                } else {
-                    indexWhile++;
-                }
-            }
-        })
-
-        await refUser.child(uidUser).once('value').then(snapshot => {
-            let userModel = { 
-                name: snapshot.child('name').val(), 
-                score: snapshot.child('score').val() + scoreAdd
-            };
-            
-            refUser.child(uidUser).set(userModel);
-
-            if(uidUser === user.uid){
-                setUser({ email: user.email, uid: user.uid, ...userModel });
-            }
-        });
-    }
-
-    function arrayRemove(arr, index) { 
-        delete arr[index];
-
-        return arr.filter((item) =>{ 
-            return item && typeof item !== 'undefined'; 
-        });
-    }
-
-    function addPlayerHome(){
-        setPlayersGoalsHome(oldArray => [...oldArray, playerHome]);
-    }
-
     function addPlayerGuest(){
-        setPlayersGoalsGuest(oldArray => [...oldArray, playerGuest]);
+        if(playerGuest){
+            setPlayersGoalsGuest(oldArray => [...oldArray, playerGuest]);
+        }
     }
 
     function deleteGoalHome(goalIndex){
@@ -205,8 +122,8 @@ export default function OfficialGame({ game, onCloseModal }) {
     }
 
     return (
-        <Card>
-            <Row cols={[6,2]}>
+        <Container menu={false}>
+            <Row cols={[6,2]} top={50}>
                 <Text style={styles.text}> { game.teamHome.name } </Text>
                 <Text style={styles.text}> { playersGoalsHome.length } </Text>
             </Row>
@@ -246,7 +163,7 @@ export default function OfficialGame({ game, onCloseModal }) {
                 <Button text="Calcular" onPress={handleSubmit} disabled={game.finished}/>
             </Row>
 
-        </Card>
+        </Container >
     );
 }
 

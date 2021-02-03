@@ -1,6 +1,7 @@
 import Button from './Button';
 import ButtonSubmit from './ButtonSubmit';
 import Card from './Card';
+import CardInfos from './CardInfos';
 import Container from './Container';
 import ContainerCenter from './ContainerCenter';
 import CustomDrawer from './CustomDrawer';
@@ -25,6 +26,7 @@ export {
     ContainerCenter,
     CustomDrawer,
     Card,
+    CardInfos,
     Row,
     DateInput,
     Input,

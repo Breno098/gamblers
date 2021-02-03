@@ -4,20 +4,27 @@ import { useNavigation } from '@react-navigation/native';
 import { AppContext } from '../../contexts/app';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Container({ children }) {
+export default function Container({ children, menu }) {
     const navigation = useNavigation();
     const { message } = useContext(AppContext);
 
     return (
         <View style={ styles.container }>
-            <SafeAreaView style={ styles.header } >
+            {
+                menu === false
+                ?
+                null
+                :
+                <SafeAreaView style={ styles.header }>
                     <TouchableOpacity style={ styles.buttonMenu } onPress={() => { navigation.toggleDrawer() }}>
                         <Icon name="bars" color="#09ad00" size={35}/>
                     </TouchableOpacity >
                     <TouchableOpacity style={ styles.messageArea }>
                         <Text style={ styles.text }> { message ?? message } </Text>
                     </TouchableOpacity>
-            </SafeAreaView>
+                </SafeAreaView>
+            }
+           
             <ScrollView style style={ styles.core }>
                 <KeyboardAvoidingView>
                 { children }

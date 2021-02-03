@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "gamblers",
-    "slug": "gamblers",
+    "name": "Fut Gamblers",
+    "slug": "FG",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo_initial.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#09ad00"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,12 +17,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.futgamblers.futgamblers"
     },
     "android": {
+      "package": "com.futgamblers.futgamblers",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/splash.png",
+        "backgroundColor": "#09ad00"
       }
     },
     "web": {

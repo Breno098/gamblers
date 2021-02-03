@@ -10,15 +10,17 @@ export default function Row({children, height, top, bottom, center , cols }) {
     const alignItems         = center ? 'center' : 'flex-start';
 
     return (
-        <View style={{ 
-            width: '100%', 
-            height: heightValue,
-            marginTop: marginTop,
-            marginBottom: marginBottom, 
-            justifyContent: viewJustifyContent, 
-            alignItems: alignItems,
-            flexDirection: 'row',
-         }}>
+        <View 
+            style={{ 
+                width: '100%', 
+                height: heightValue,
+                marginTop: marginTop,
+                marginBottom: marginBottom, 
+                justifyContent: viewJustifyContent, 
+                alignItems: alignItems,
+                flexDirection: 'row',
+            }}
+        >
              { Children.map(children, (child, i) => {
 
                 let col = cols[i] ? cols[i] : 8;

@@ -27,7 +27,6 @@ export default function Bet({ game, onCloseModal }) {
     async function loadListPlayers(){
         await firebase.database().ref('app').child('player').orderByChild('team').equalTo(game.teamHome.name).on('value', (snapshot) => {
             setPlayersHome([]);
-            console.log(snapshot)
             snapshot.forEach( childItem => {
                 let list = { 
                     key: childItem.key, 
@@ -94,11 +93,15 @@ export default function Bet({ game, onCloseModal }) {
     }
 
     function addPlayerHome(){
-        setPlayersGoalsHome(oldArray => [...oldArray, playerHome]);
+        if(playerHome){
+            setPlayersGoalsHome(oldArray => [...oldArray, playerHome]);
+        }
     }
 
     function addPlayerGuest(){
-        setPlayersGoalsGuest(oldArray => [...oldArray, playerGuest]);
+        if(playerGuest){
+            setPlayersGoalsGuest(oldArray => [...oldArray, playerGuest]);
+        }
     }
 
     function deleteGoalHome(goalIndex){
@@ -114,8 +117,8 @@ export default function Bet({ game, onCloseModal }) {
     }
 
     return (
-        <Container>
-            <Row cols={[8]} height={70}>
+        <Container menu={false}>
+            <Row cols={[8]} height={70} top={50}>
                 <Card>
                     <Row cols={[8]} height={5} top={0} bottom={0}>
                         <Text style={styles.textCard}> Informações </Text>

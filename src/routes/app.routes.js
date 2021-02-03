@@ -4,10 +4,9 @@ import { CustomDrawer } from '../components'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from '../pages/Home';
-import Bet from '../pages/Bet';
 import Registers from '../pages/Registers';
 import OfficialGames from '../pages/OfficialGames';
-import OfficialGame from '../pages/OfficialGame';
+import Ranking from '../pages/Ranking';
 
 const AppDrawer = createDrawerNavigator();
 
@@ -37,11 +36,15 @@ function AppRoutes(){
         }}/>
         <AppDrawer.Screen name="OfficialGames" component={OfficialGames} options={{ 
             title: 'Jogos Oficiais', 
-            drawerIcon: ({tintColor}) => <Icon name="star" size={20} color={tintColor} /> 
+            drawerIcon: ({tintColor}) => <Icon name="futbol-o" size={20} color={tintColor} /> 
         }}/>
         <AppDrawer.Screen name="Registers" component={Registers} options={{ 
             title: 'Registrar', 
             drawerIcon: ({tintColor}) => <Icon name="plus" size={20} color={tintColor} /> 
+        }}/>
+         <AppDrawer.Screen name="Ranking" component={Ranking} options={{ 
+            title: 'Ranking', 
+            drawerIcon: ({tintColor}) => <Icon name="star" size={20} color={tintColor} /> 
         }}/>
     </AppDrawer.Navigator>
     );

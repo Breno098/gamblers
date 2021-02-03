@@ -20,9 +20,6 @@ export default function CustomDrawer({ ...props }) {
                     { user && user.name }
                 </Text>
 
-                <Text style={{ color: '#000', fontSize: 17, fontWeight: 'bold', paddingBottom: 20 }}> 
-                    Pontos { user && user.score }
-                </Text>
             </View>
 
             <DrawerItemList {...props}/>

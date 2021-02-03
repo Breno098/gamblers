@@ -49,13 +49,13 @@ export default function OfficialGames() {
       </Modal>
 
       <Row cols={[8]}>
-        <Text style={{textAlign: 'center', ...styles.text}}> Calcular Apostas </Text>
+        <Text style={{textAlign: 'center', ...styles.text}}> Jogos Oficiais </Text>
       </Row>
       { games ? games.map(game => (
         <Row cols={[8]} height={200} key={game.key}>
           <Card>
              <Row cols={[3,2,3]} height={5}>
-                <Text style={{textAlign: 'center', ...styles.text}}> { game.teamHome.name} </Text>
+                <Text style={{textAlign: 'center', ...styles.text}}> { game.teamHome.name}  </Text>
                 <Text style={{textAlign: 'center', ...styles.text}}> X </Text>
                 <Text style={{textAlign: 'center', ...styles.text}}> { game.teamGuest.name} </Text>
               </Row>
@@ -68,7 +68,7 @@ export default function OfficialGames() {
               </Row>
 
               <Row cols={[6, 2]}>
-                <Button text="Calcular pontos" onPress={() => {
+                <Button text={ game.finished ? 'Ver resultado' : "Calcular pontos" } onPress={() => {
                    setAtualGame(game);
                    setModalVisible(true);
                 }}/>

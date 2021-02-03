@@ -57,6 +57,22 @@ export default function Player() {
     }
 
     async function handleSubmit(){
+        if(!playerName){
+            setMessage('Insira o nome.');
+            return;
+        }
+
+        if(!team){
+            setMessage('Insira o time.');
+            return;
+        }
+
+        if(!country){
+            setMessage('Insira o país.');
+            return;
+        }
+
+
         let model = {
             name: playerName,
             team: team,

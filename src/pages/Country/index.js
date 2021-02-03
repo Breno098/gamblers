@@ -29,6 +29,11 @@ export default function Country() {
     }
 
     async function handleSubmit(){
+        if(!countryName){
+            setMessage('Insira o nome.');
+            return;
+        }
+
         let model = {
             name: countryName
         }

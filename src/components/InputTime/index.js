@@ -27,9 +27,7 @@ export default function InputTime({ ...props }) {
 const styles = StyleSheet.create({
   fakeInput: {
     width: '100%',
-     borderColor: '#09ad00',  
-     borderWidth: 1, 
-     borderRadius: 5, 
+     borderRadius: 3, 
      backgroundColor: 'rgba(0, 0, 0, 0.1)', 
      flexDirection: 'row', 
      alignItems: 'center'

@@ -75,6 +75,22 @@ export default function Game() {
     }
 
     async function handleSubmit(){
+
+        if(!teamHome || !teamGuest){
+            setMessage('Times obrigatórios.');
+            return;
+        }
+
+        if(!date || !time){
+            setMessage('Insira data e hora do jogo.');
+            return;
+        }
+
+        if(!stadium){
+            setMessage('Insira o estádio.');
+            return;
+        }
+
         let model = {
             teamHome: teamHome,
             teamHome: {
