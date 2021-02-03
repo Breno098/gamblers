@@ -104,6 +104,5 @@ Nesta seção haverão instruções explicando para que os diretórios são util
 
 ## Contato
 
-**Breno**
-  [Github](https://github.com/Breno098)
+**Breno** - Email: brenohenrique098@gmail.com | [Github](https://github.com/Breno098)
   
