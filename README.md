@@ -17,9 +17,9 @@ Este projeto visa a criação de um template que possa ser utilizado no momento 
 
 Abaixo segue o que foi utilizado na criação deste template:
 
-- [Expo] - (https://docs.expo.io/) 
+- [Expo](https://docs.expo.io/) 
 - [React Native](http://facebook.github.io/react-native/)
-- [React Navigation](https://reactnavigation.org
+- [React Navigation](https://reactnavigation.org)
 - [React Native Gesture Handler](https://kmagiera.github.io/react-native-gesture-handler/)
 - [Firebase](https://firebase.google.com/)
 
