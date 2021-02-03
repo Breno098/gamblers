@@ -1,7 +1,7 @@
 <p align="center">
   <h3 align="center"> Fut Gamblers </h3>
   
-  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/login_screen.jpeg">
+  <img src="https://github.com/Breno098/gamblers/blob/master/readme_images/login_screen.jpeg" width="200" height="200">
 </p>
 
 ## Tabela de Conteúdo
