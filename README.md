@@ -61,7 +61,7 @@
 
 ## Sobre o Projeto
 
-Este projeto visa a criação de um template que possa ser utilizado no momento de criação de projetos utilizando React Native, visto que o processo de instalação e configuração das libs no início de um projeto podem gerar certa complexidade e muitas vezes até erros que atrasam o processo, atrapalhando assim o fluxo de desenvolvimento.
+Este projeto visa a criação de um aplicativo para apostar de jogos de futebol, tendo como cadastrar jogadores, times, países, estádios e jogos, contabilizar pontos e apontar o ranking de cada usuário, de acordo coms sua pontuação. 
 
 ### Feito Com
 
@@ -69,13 +69,14 @@ Abaixo segue o que foi utilizado na criação deste template:
 
 - [Expo](https://docs.expo.io/) 
 - [React Native](http://facebook.github.io/react-native/)
-- [React Navigation](https://reactnavigation.org)
 - [React Native Gesture Handler](https://kmagiera.github.io/react-native-gesture-handler/)
 - [Firebase](https://firebase.google.com/)
+- [Date-fns](https://date-fns.org/)
+
 
 ### Edição
 
-Nesta seção haverão instruções caso você queira editar o template, explicando para que os diretórios são utilizados e também os arquivos de configuração.
+Nesta seção haverão instruções explicando para que os diretórios são utilizados.
 
 - **assets** - Diretório contendo logos;
 
@@ -103,4 +104,6 @@ Nesta seção haverão instruções caso você queira editar o template, explica
 
 ## Contato
 
-Breno - [Github](https://github.com/Breno098) - **Breno 098**
+**Breno**
+  [Github](https://github.com/Breno098)
+  
