@@ -4,6 +4,7 @@ import firebase from '../../services/firebaseConnection';
 import { Container, Row, Button, Card, CardInfos} from '../../components';
 import { AuthContext } from '../../contexts/auth';
 import Bet from '../Bet';
+import { differenceInMinutes, parse } from 'date-fns';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -16,6 +17,10 @@ export default function Home() {
   useEffect(() => {
     loadList();
   }, []);
+
+  function closeBet(game){
+    return differenceInMinutes( parse(game.date + ' ' + game.time, 'dd/MM/yyyy HH:mm', new Date()),  new Date()) < 90;
+  }
 
   async function loadList(){
     let uid = user.uid;
@@ -78,15 +83,19 @@ export default function Home() {
               <Row cols={[8]} height={5}>
                 <Text style={styles.text}> Local: { game.stadium }</Text>
               </Row>
+              
 
               <Row cols={[6, 2]}>
-                <Button text="Apostar" onPress={() => {
+                <Button text="Apostar" 
+                disabled={ closeBet(game) } 
+                onPress={() => {
                   setAtualGame(game);
                   setModalVisible(true);
                 }}/>
                 <Card center={true}>
                   <Text style={styles.status}> 
-                    { statusBet.filter(value => (value.key == game.key)).length ? 'Apostado' : '--' } 
+                    { statusBet.filter(value => (value.key == game.key)).length ? 'Apostado'  :
+                      closeBet(game) ? 'Tempo limite' :  '--' } 
                   </Text>
                 </Card>
               </Row>

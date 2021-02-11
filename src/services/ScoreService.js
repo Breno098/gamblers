@@ -45,9 +45,7 @@ export default class ScoreService
                 let goalsHome = compare.child('teamHome/score').val();
                 let goalsGuest = compare.child('teamGuest/score').val();
 
-                let exactScore = false;
-
-                if( goalsHome ===  this.model.teamHome.score && goalsGuest ===  this.model.teamGuest.score) {
+                if(goalsHome === this.model.teamHome.score && goalsGuest ===  this.model.teamGuest.score) {
                    
                    this.users.forEach(user => {
                         if(bet.key === user.key){
@@ -55,24 +53,30 @@ export default class ScoreService
                         }
                     })
 
-                    exactScore = true;
-                } 
+                } else if(goalsHome > goalsGuest && this.model.teamHome.score > this.model.teamGuest.score) {
 
-                if( !exactScore && goalsHome > goalsGuest && this.model.teamHome.score > this.model.teamGuest.score) {
                    this.users.forEach(user => {
                         if(bet.key === user.key){
                             user.score = user.score + 1;
                         }
                     })
-                }
 
-                if( !exactScore && goalsHome < goalsGuest && this.model.teamHome.score < this.model.teamGuest.score) {
+                } else if(goalsHome < goalsGuest && this.model.teamHome.score < this.model.teamGuest.score) {
+
                     this.users.forEach(user => {
-                         if(bet.key === user.key){
-                             user.score = user.score + 1;
-                         }
-                     })
-                 }
+                        if(bet.key === user.key){
+                            user.score = user.score + 1;
+                        }
+                    })
+
+                } else if(goalsHome === goalsGuest && this.model.teamHome.score === this.model.teamGuest.score) {
+
+                    this.users.forEach(user => {
+                        if(bet.key === user.key){
+                            user.score = user.score + 1;
+                        }
+                    })
+                }
 
                 var playersGoalsHomeClone = [ ...this.model.teamHome.goals ];
                 var playersGoalsGuestClone = [ ...this.model.teamGuest.goals ];

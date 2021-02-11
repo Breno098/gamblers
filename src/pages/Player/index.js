@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
+import { AuthContext } from '../../contexts/auth'
 import { Container, Row, Button, Input, List, ListColumns, Select, Option } from '../../components'
 import firebase from '../../services/firebaseConnection';
 
 export default function Player() {
 
     const { setMessage } = useContext(AppContext);
+    const { user } = useContext( AuthContext );
 
     const [playerName, setPlayerName] = useState('');
     const [playerKey, setPlayerKey] = useState(null);
@@ -57,6 +59,11 @@ export default function Player() {
     }
 
     async function handleSubmit(){
+        if(!user.adm){
+            setMessage('Sem permissão');
+            return;
+        }
+
         if(!playerName){
             setMessage('Insira o nome.');
             return;

@@ -160,7 +160,7 @@ export default function OfficialGame({ game, onCloseModal }) {
             </Row>
 
             <Row cols={[8]}>
-                <Button text="Calcular" onPress={handleSubmit} disabled={game.finished}/>
+                <Button text="Calcular" onPress={handleSubmit} disabled={game.finished || !user.adm}/>
             </Row>
 
         </Container >

@@ -72,6 +72,7 @@ function AuthProvider({ children }){
                     name: snapshot.val().name,
                     email: value.user.email,
                     score: snapshot.val().score,
+                    adm: snapshot.val().adm,
                 };
                 
                 setUser(data);
@@ -107,6 +108,7 @@ function AuthProvider({ children }){
                     name: name,
                     email: value.user.email,
                     score: 0,
+                    amd: false
                 };
 
                 setUser(data);

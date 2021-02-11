@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
+import { AuthContext } from '../../contexts/auth'
 import { Container, Row, Button, Input, List, ListColumns, Select, Option } from '../../components'
 import firebase from '../../services/firebaseConnection';
 
 export default function Team() {
 
     const { setMessage } = useContext(AppContext);
+    const { user } = useContext( AuthContext );
 
     const [teamName, setTeamName] = useState('');
     const [teamKey, setTeamKey] = useState(null);
@@ -43,6 +45,11 @@ export default function Team() {
     }
 
     async function handleSubmit(){
+        if(!user.adm){
+            setMessage('Sem permissão');
+            return;
+        }
+
         if(!teamName){
             setMessage('Insira o nome.');
             return;

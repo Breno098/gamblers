@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
+import { AuthContext } from '../../contexts/auth'
 import { Container, Button, List, ListColumns, Select, Option, DateInput, Row, Input, InputTime } from '../../components'
 import firebase from '../../services/firebaseConnection';
 import { format } from 'date-fns';
@@ -8,6 +9,7 @@ import { format } from 'date-fns';
 export default function Game() {
 
     const { setMessage } = useContext(AppContext);
+    const { user } = useContext( AuthContext );
 
     const [teamHome, setTeamHome] = useState(null);
     const [teamGuest, setTeamGuest] = useState(null);
@@ -16,7 +18,7 @@ export default function Game() {
     const [games, setGames] = useState([]);
     const [gameKey, setGameKey] = useState(null);
 
-    const [date, setDate] = useState(format(new Date(), 'dd/MM/yy'));
+    const [date, setDate] = useState(format(new Date(), 'dd/MM/yyyy'));
     const [time, setTime] = useState('00:00');
     const [textButton, setTextButton] = useState('Registrar');
 
@@ -75,6 +77,10 @@ export default function Game() {
     }
 
     async function handleSubmit(){
+        if(!user.adm){
+            setMessage('Sem permissão');
+            return;
+        }
 
         if(!teamHome || !teamGuest){
             setMessage('Times obrigatórios.');
@@ -154,6 +160,7 @@ export default function Game() {
         setTime(String(game.time));
         setFinished(game.finished);
         setStadium(game.stadium);
+        setDate(game.date)
     }
 
     return (
@@ -170,7 +177,7 @@ export default function Game() {
                     { games.map(game => (
                         <ListColumns   
                             columns={[
-                                `${game.date} (${game.time ?? '--'} - ${game.finished ? 'S' : 'N'}) `, 
+                                `${game.date} | ${game.time ?? '--'} `, 
                                 `(${game.teamHome.score}) ${game.teamHome.name}`, 
                                 `(${game.teamGuest.score}) ${game.teamGuest.name}`
                             ]}

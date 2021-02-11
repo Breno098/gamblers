@@ -10,7 +10,7 @@ export default function DateInput({ ...props }) {
             <DatePicker
                 { ...props }
                 style={{ width: '100%' }}
-                format="DD/MM/YY"
+                format="DD/MM/YYYY"
                 mode="date"
                 iconComponent={<Icon name="calendar" color="#000" size={25} style={{ marginRight: 5 }}/>}
                 customStyles={{

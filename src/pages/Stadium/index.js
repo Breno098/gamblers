@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { AppContext } from '../../contexts/app';
+import { AuthContext } from '../../contexts/auth'
 import { Container, Row, Button, Input, List, ListColumns } from '../../components'
 import firebase from '../../services/firebaseConnection';
 
 export default function Stadium() {
 
     const { setMessage } = useContext(AppContext);
+    const { user } = useContext( AuthContext );
 
     const [stadiumName, setStadiumName] = useState('');
     const [stadiumKey, setStadiumKey] = useState(null);
@@ -29,6 +31,11 @@ export default function Stadium() {
     }
 
     async function handleSubmit(){
+        if(!user.adm){
+            setMessage('Sem permissão');
+            return;
+        }
+
         if(!stadiumName){
             setMessage('Insira o nome.');
             return;
